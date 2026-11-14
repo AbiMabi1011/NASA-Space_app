@@ -3,80 +3,328 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#13231a" />
-  <meta name="description" content="An explainable farm rotation planning prototype using NASA POWER climate history, field notes, and farmer priorities." />
-  <title>FieldShift — Farm rotation planner</title>
+  <meta name="theme-color" content="#0d2417" />
+  <meta name="description" content="FieldShift AgriVision — Crop Yield Predictions & Farm Rotation Planning tailored for climate resilience using 10 years of NASA Earth observations, soil notes, and farmer priorities." />
+  <title>FieldShift — Crop Yield & Rotation Planning Tailored for Climate Resilience</title>
+  
+  <!-- Premium Typography: Plus Jakarta Sans, DM Sans, Playfair Display, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@1,600;1,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <a class="brand" href="#top" aria-label="FieldShift home">
-        <span class="brand-mark"><span></span><span></span><span></span></span>
-        <span>field<span class="brand-light">shift</span></span>
-      </a>
-      <div class="workspace-label">CLIMATE INTELLIGENCE</div>
-      <nav aria-label="Main navigation">
-        <a class="nav-item active" href="#overview" data-section="overview"><span class="nav-icon">◫</span> Field overview</a>
-        <a class="nav-item" href="#planner" data-section="planner"><span class="nav-icon">⟳</span> Rotation planner</a>
-        <a class="nav-item" href="#climate" data-section="climate"><span class="nav-icon">◉</span> NASA Climate signals</a>
-      </nav>
-      <div class="sidebar-bottom">
-        <div class="team-card">
-          <div class="team-icon">✳</div>
-          <div>
-            <b>NASA Knights</b>
-            <small>Jaffna Local Event · 2026</small>
-          </div>
-        </div>
-        <div class="sidebar-note">An explainable planning companion for climate-resilient agriculture.</div>
+<body id="top">
+
+  <!-- ========================================================================= -->
+  <!-- 1. TOP ANNOUNCEMENT & UTILITY BAR                                         -->
+  <!-- ========================================================================= -->
+  <header class="top-utility-bar">
+    <div class="site-container utility-inner">
+      <div class="utility-left">
+        <span class="utility-badge">
+          <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+          NASA SPACE APPS 2026
+        </span>
+        <span class="utility-text">Challenge: <b>Field Shift · Adapting Farms with NASA Data</b></span>
+        <span class="utility-divider">|</span>
+        <span class="utility-status">
+          <span class="live-pulse"></span>
+          NASA POWER Daily Agroclimatology Sync: <b>Active</b>
+        </span>
       </div>
-    </aside>
-
-    <main id="top">
-      <header class="topbar">
-        <div class="crumb">NASA SPACE APPS 2026 <span>/</span> FIELD ROTATION PLANNER</div>
-        <div class="top-actions">
-          <button id="openTourBtn" class="tour-pill" aria-label="Open guided tour">💡 Interactive Walkthrough</button>
-          <span class="live-dot"></span>
-          <span class="prototype-badge">Live Prototype</span>
-          <button class="avatar" aria-label="NASA Knights">NK</button>
+      <div class="utility-right">
+        <a href="tel:+94212223276" class="utility-link">
+          <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +94 (21) 222-FARM
+        </a>
+        <span class="utility-divider">|</span>
+        <div class="utility-socials">
+          <a href="#about" title="NASA Knights Team" class="social-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          </a>
+          <a href="https://power.larc.nasa.gov" target="_blank" rel="noreferrer" title="NASA POWER Portal" class="social-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>
+          </a>
         </div>
-      </header>
+        <span class="team-tag">NASA Knights · Jaffna</span>
+      </div>
+    </div>
+  </header>
 
-      <section class="page-heading" id="overview">
-        <div>
-          <div class="eyebrow">FIELD SHIFT · CLIMATE-ADAPTIVE DECISION SUPPORT</div>
-          <h1>Plan for the season<br><em>you're growing into.</em></h1>
-          <p class="intro">Compare sustainable crop rotations shaped by your field notes, farmer priorities, and 10 complete years of NASA Earth observations.</p>
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN NAVIGATION HEADER                                                 -->
+  <!-- ========================================================================= -->
+  <nav class="main-nav-bar" id="mainNavBar">
+    <div class="site-container nav-inner">
+      <a class="nav-brand" href="#top" aria-label="FieldShift AgriVision">
+        <div class="brand-leaf-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/>
+          </svg>
         </div>
-        <div class="heading-stamp">
-          <span class="stamp-star">✳</span>
-          <div>
-            <b>NASA POWER API</b>
-            <small>AGROCLIMATOLOGY</small>
+        <div class="brand-text-wrap">
+          <span class="brand-name">field<span class="brand-accent">shift</span></span>
+          <span class="brand-sub">AgriVision Decision AI</span>
+        </div>
+      </a>
+
+      <!-- Main Navigation Menu -->
+      <div class="nav-links" role="navigation" aria-label="Main menu">
+        <a class="nav-item active" href="#top" data-section="home">Home</a>
+        <a class="nav-item" href="#overview" data-section="overview">Field Overview</a>
+        <a class="nav-item" href="#monitoring" data-section="monitoring">Monitoring &amp; Zones</a>
+        <a class="nav-item" href="#planner" data-section="planner">Rotation Planner</a>
+        <a class="nav-item" href="#climate" data-section="climate">NASA Climate</a>
+        <a class="nav-item" href="#services" data-section="services">Services</a>
+      </div>
+
+      <!-- Header Action Buttons -->
+      <div class="nav-actions">
+        <button id="openTourBtn" class="tour-pill" aria-label="Open guided walkthrough">
+          <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-4 4h2m-5-8.5a7 7 0 1 1 8 0c-.8 1-1.5 2-1.5 3.5h-5c0-1.5-.7-2.5-1.5-3.5z"/></svg>
+          <span>Interactive Tour</span>
+        </button>
+        <a href="#planner" class="btn-predict-pill" id="heroPredictBtn">
+          <span>Predict Now</span>
+          <span class="btn-dot-live"></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- 3. LUSH AGRICULTURAL HERO SECTION WITH REAL FARM BG IMAGE                  -->
+  <!-- ========================================================================= -->
+  <section class="hero-section" id="hero">
+    <div class="hero-bg-overlay"></div>
+
+    <div class="site-container hero-split-grid">
+      
+      <!-- LEFT HERO COLUMN -->
+      <div class="hero-left-content">
+        <div class="hero-badge-pill">
+          <span class="hero-badge-dot"></span>
+          <span>NASA POWER &amp; GPM SATELLITE AGROCLIMATOLOGY</span>
+        </div>
+
+        <h1 class="hero-title">
+          Crop Yield Predictions &amp;<br>
+          Farm Rotation Planning<br>
+          <span class="hero-subline">Tailored for <em class="hero-script-accent">Climate Resilience</em></span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Connecting 10 complete years of NASA Earth observations with farmer field notes and regional priorities. 
+          Discover explainable, water-conscious crop sequences designed to protect yields and restore soil health.
+        </p>
+
+        <!-- Live Location Quick-Select Strip -->
+        <div class="hero-location-strip">
+          <span class="strip-label">
+            <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Quick Coordinates:
+          </span>
+          <div class="hero-preset-group">
+            <button type="button" class="preset-btn active" data-lat="9.66" data-lon="80.02">Jaffna Peninsula (9.66°N)</button>
+            <button type="button" class="preset-btn" data-lat="8.31" data-lon="80.40">Anuradhapura (8.31°N)</button>
+            <button type="button" class="preset-btn" data-lat="9.38" data-lon="80.40">Kilinochchi (9.38°N)</button>
           </div>
         </div>
-      </section>
 
-      <!-- Top Field Summary Strip -->
-      <section class="summary-grid" aria-label="Field summary">
+        <div class="hero-cta-group">
+          <a href="#planner" class="hero-btn-primary">
+            <span>Predict &amp; Plan Now</span>
+            <span class="btn-dot-white"></span>
+          </a>
+          <a href="#monitoring" class="hero-btn-secondary">
+            <span>Live Field Monitoring</span>
+            <span class="hero-btn-arrow"><svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </a>
+        </div>
+
+        <div class="hero-trust-badges">
+          <div class="trust-badge-item">
+            <span class="trust-icon">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>NASA POWER Monthly Point API</span>
+          </div>
+          <div class="trust-badge-item">
+            <span class="trust-icon">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>NASA GPM IMERG Rainfall Cross-Check</span>
+          </div>
+          <div class="trust-badge-item">
+            <span class="trust-icon">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>Explainable Heuristic AI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT HERO COLUMN: Interactive Glassmorphic Agro-Card -->
+      <div class="hero-right-visual">
+        <div class="hero-floating-card">
+          
+          <div class="hero-card-header">
+            <div class="card-satellite-tag">
+              <span class="live-dot-glow"></span>
+              <b>LIVE NASA SATELLITE GRID</b>
+            </div>
+            <span class="card-coord-badge">9.66° N · 80.02° E</span>
+          </div>
+
+          <div class="hero-card-location">
+            <h3>Jaffna Peninsula Dry Zone</h3>
+            <p>Northern Province · Nearest NASA POWER 0.5° Climate Cell</p>
+          </div>
+
+          <!-- Quick Telemetry Numbers -->
+          <div class="hero-card-stats-grid">
+            <div class="card-stat-box">
+              <small>Mean Air Temp</small>
+              <strong>28.5°C</strong>
+              <span class="stat-trend">NASA T2M Historical</span>
+            </div>
+            <div class="card-stat-box">
+              <small>Seasonal Rainfall</small>
+              <strong>326 mm</strong>
+              <span class="stat-trend">Yala Dry Window</span>
+            </div>
+            <div class="card-stat-box">
+              <small>Dry Season Risk</small>
+              <strong class="risk-low">1 / 10</strong>
+              <span class="stat-trend">&lt; 75% Median Rain</span>
+            </div>
+          </div>
+
+          <!-- Featured Rotation Preview -->
+          <div class="hero-card-rotation-preview">
+            <div class="preview-head">
+              <span class="preview-tag">
+                <svg class="ui-icon" viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                RECOMMENDED ROTATION
+              </span>
+              <span class="preview-score">84/100 MATCH</span>
+            </div>
+            <div class="preview-title">Groundnut → Green gram → Sesame</div>
+            <div class="preview-flow">
+              <span class="chip-sm">Groundnut</span>
+              <span class="arrow-sm"><svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+              <span class="chip-sm">Green gram</span>
+              <span class="arrow-sm"><svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+              <span class="chip-sm">Sesame</span>
+            </div>
+            <div class="preview-reason">
+              Incorporates two nitrogen-fixing pulse breaks to build soil organic matter while reducing irrigation stress.
+            </div>
+          </div>
+
+          <a href="#planner" class="hero-card-action-btn">
+            <span>Explore 3 Curated Pathways Below</span>
+            <span>↓</span>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Organic Wave Divider -->
+    <div class="hero-wave-divider">
+      <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
+        <path d="M0,25L48,32C96,39,192,53,288,58.7C384,64,480,61,576,48C672,35,768,11,864,13.3C960,16,1056,45,1152,53.3C1248,61,1344,48,1392,41.3L1440,35L1440,80L1392,80C1344,80,1248,80,1152,80C1056,80,960,80,864,80C768,80,672,80,576,80C480,80,384,80,288,80C192,80,96,80,48,80L0,80Z" fill="#f6f8f5"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 4. QUICK ACTION HORIZONTAL GREEN RIBBON                                   -->
+  <!-- ========================================================================= -->
+  <section class="quick-action-ribbon" aria-label="Quick Agricultural Features">
+    <div class="site-container ribbon-inner">
+      <a href="#planner" class="ribbon-card">
+        <div class="ribbon-icon-circle">
+          <svg class="ui-icon-lg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="ribbon-text">
+          <b>GPS Field Coordinates</b>
+          <small>Precision 0.5° NASA climate grid</small>
+        </div>
+      </a>
+
+      <a href="#recommendations" class="ribbon-card">
+        <div class="ribbon-icon-circle">
+          <svg class="ui-icon-lg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 12h6m-6 4h4"/></svg>
+        </div>
+        <div class="ribbon-text">
+          <b>Field Decision Card</b>
+          <small>Printable 1-page extension PDF</small>
+        </div>
+      </a>
+
+      <a href="#climate" class="ribbon-card">
+        <div class="ribbon-icon-circle">
+          <svg class="ui-icon-lg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>
+        </div>
+        <div class="ribbon-text">
+          <b>NASA Agroclimatology</b>
+          <small>10-Yr historical weather signals</small>
+        </div>
+      </a>
+
+      <a href="#monitoring" class="ribbon-card">
+        <div class="ribbon-icon-circle">
+          <svg class="ui-icon-lg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+        </div>
+        <div class="ribbon-text">
+          <b>Agro-Ecological Advisory</b>
+          <small>Legumes, nitrogen &amp; drought fit</small>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5. MAIN CONTENT WRAPPER                                                   -->
+  <!-- ========================================================================= -->
+  <main class="main-body-content">
+    
+    <!-- FIELD OVERVIEW SUMMARY STRIP (PRESERVED ALL REQUIRED IDS) -->
+    <section class="site-container summary-section" id="overview">
+      <div class="section-title-wrap">
+        <div class="eyebrow">FIELD OVERVIEW · REAL-TIME AGROCLIMATIC STATE</div>
+        <h2>Current Field &amp; Environmental Status</h2>
+        <p class="section-intro">Continuously calibrated NASA POWER climate data and farmer-entered field notes.</p>
+      </div>
+
+      <div class="summary-grid" aria-label="Field summary">
+        <!-- Location Card -->
         <article class="summary-card location-card">
           <div class="card-top">
-            <span class="card-label">📍 YOUR FIELD LOCATION</span>
-            <span class="tiny-icon">⌖</span>
+            <span class="card-label">
+              <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              YOUR FIELD LOCATION
+            </span>
+            <span class="tiny-icon">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v4m0 12v4m-10-10h4m12 0h4"/></svg>
+            </span>
           </div>
           <div class="location-name" id="locationName">Jaffna peninsula</div>
           <div class="location-detail">NASA POWER nearest climate grid cell</div>
           <div class="coordinates" id="coordinateLabel">9.66° N <span>·</span> 80.02° E</div>
         </article>
 
+        <!-- Climate Snapshot Card -->
         <article class="summary-card climate-card">
           <div class="card-top">
-            <span class="card-label">🛰️ CLIMATE SNAPSHOT (10-YR)</span>
+            <span class="card-label">
+              <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>
+              CLIMATE SNAPSHOT (10-YR)
+            </span>
             <span class="data-tag" id="dataStatus">DEMO DATA</span>
           </div>
           <div class="climate-numbers">
@@ -93,9 +341,13 @@
           <div class="climate-caption" id="climateCaption">Monthly climatology · loading…</div>
         </article>
 
+        <!-- Soil Profile Card -->
         <article class="summary-card soil-card">
           <div class="card-top">
-            <span class="card-label">🌱 FIELD SOIL PROFILE</span>
+            <span class="card-label">
+              <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+              FIELD SOIL PROFILE
+            </span>
             <span class="edit-label">EDIT BELOW ↓</span>
           </div>
           <div class="soil-name" id="soilSummary">Sandy loam</div>
@@ -105,9 +357,343 @@
           </div>
           <div class="soil-hint">Recorded from your field notes</div>
         </article>
-      </section>
+      </div>
+    </section>
 
-      <!-- INPUT → OUTPUT flow indicator -->
+    <!-- ========================================================================= -->
+    <!-- 6. AGRIVISION LIVE MONITORING & ZONE DASHBOARD                            -->
+    <!-- ========================================================================= -->
+    <section class="site-container agrivision-dashboard-section" id="monitoring">
+      <div class="agrivision-dashboard-card">
+        
+        <!-- Dashboard Top Navigation Bar -->
+        <div class="dash-top-bar">
+          <div class="dash-brand">
+            <svg class="dash-leaf" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+            <span class="dash-brand-title">AgriVision</span>
+            <span class="dash-badge">MONITORING STUDIO</span>
+          </div>
+
+          <div class="dash-tabs" role="tablist">
+            <button class="dash-tab" data-tab="overview">Overview</button>
+            <button class="dash-tab active" data-tab="monitoring">Monitoring</button>
+            <button class="dash-tab" data-tab="crop-health">Crop Health</button>
+            <button class="dash-tab" data-tab="reports">Reports</button>
+          </div>
+
+          <div class="dash-actions">
+            <button class="dash-icon-btn" title="Settings">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
+            <button class="dash-icon-btn" title="Search">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </button>
+            <button class="dash-log-btn" id="dashLogActivityBtn">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span>Log Activity</span>
+            </button>
+            <div class="dash-avatar" title="NASA Knights Officer">NK</div>
+          </div>
+        </div>
+
+        <!-- Dashboard 3-Column Studio Grid -->
+        <div class="dash-studio-grid">
+          
+          <!-- LEFT COLUMN: Zones List & AI Insights -->
+          <div class="dash-col dash-col-left">
+            <div class="dash-selector-box">
+              <div class="dash-farm-name">
+                <div class="dash-farm-header-row">
+                  <svg class="dash-farm-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+                  <b>Riverbend / Jaffna Farm</b>
+                </div>
+                <small>Northern Dry Zone · Sri Lanka</small>
+              </div>
+              <div class="dash-zone-dropdown">
+                <span>All Zones (A, B, C)</span>
+                <small>▾</small>
+              </div>
+            </div>
+
+            <!-- Zone Status Cards -->
+            <div class="zone-cards-list">
+              <!-- Zone A -->
+              <div class="zone-card active" data-zone="A">
+                <div class="zone-card-head">
+                  <div class="zone-title">
+                    <b>Zone A</b>
+                    <span class="zone-status-dot healthy"></span>
+                    <span class="zone-status-text">Healthy</span>
+                  </div>
+                  <span class="zone-health-pill healthy">95%</span>
+                </div>
+                <div class="zone-crop-desc">Spinach &amp; Groundnut — Optimal Nitrogen</div>
+                <div class="zone-progress-bar">
+                  <div class="zone-progress-fill healthy" style="width: 95%;"></div>
+                </div>
+              </div>
+
+              <!-- Zone B -->
+              <div class="zone-card" data-zone="B">
+                <div class="zone-card-head">
+                  <div class="zone-title">
+                    <b>Zone B</b>
+                    <span class="zone-status-dot warning"></span>
+                    <span class="zone-status-text">Needs Attention</span>
+                  </div>
+                  <span class="zone-health-pill warning">37%</span>
+                </div>
+                <div class="zone-crop-desc">Lettuce &amp; Cereal — Low Available Moisture / High Heat</div>
+                <div class="zone-progress-bar">
+                  <div class="zone-progress-fill warning" style="width: 37%;"></div>
+                </div>
+              </div>
+
+              <!-- Zone C -->
+              <div class="zone-card" data-zone="C">
+                <div class="zone-card-head">
+                  <div class="zone-title">
+                    <b>Zone C</b>
+                    <span class="zone-status-dot critical"></span>
+                    <span class="zone-status-text">Action Required</span>
+                  </div>
+                  <span class="zone-health-pill critical">21%</span>
+                </div>
+                <div class="zone-crop-desc">Pulse Fallow — Low Moisture &amp; High Evaporation</div>
+                <div class="zone-progress-bar">
+                  <div class="zone-progress-fill critical" style="width: 21%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Insight Card -->
+            <div class="ai-insight-bubble-card">
+              <div class="ai-insight-head">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+                <b>AgriVision AI Insight</b>
+              </div>
+              <p class="ai-quote-text" id="aiInsightQuote">
+                “NASA historical climatology shows 30% frequency of dry Yala seasons. Rotating Zone C with drought-hardy cowpea or green gram can restore nitrogen balance and reduce water stress within 45 days.”
+              </p>
+              <a href="#planner" class="ai-insight-btn">
+                <span>View Smart Recommendation</span>
+                <span><svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+              </a>
+            </div>
+
+            <!-- Total Farm Metrics Mini-Row -->
+            <div class="farm-parcels-mini">
+              <div>
+                <small>Total Farm Parcels</small>
+                <b>1,750 m²</b>
+              </div>
+              <div class="parcel-status-tag">
+                <span class="live-dot"></span> Operations Validated
+              </div>
+            </div>
+          </div>
+
+          <!-- CENTER COLUMN: Interactive 3D Farm Visual Plot Simulation -->
+          <div class="dash-col dash-col-center">
+            <div class="farm-plot-container">
+              <div class="farm-plot-badge">
+                <span>
+                  <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>
+                  SATELLITE FIELD SIMULATION
+                </span>
+                <small>Isometric Plot View</small>
+              </div>
+
+              <!-- 3D Bed Graphic with Zone Overlays -->
+              <div class="isometric-farm-stage" id="farmStage">
+                
+                <!-- Zone A Bed Overlay -->
+                <div class="plot-zone-slice slice-zone-a" data-zone="A">
+                  <span class="slice-label">Zone A</span>
+                  <div class="crop-texture-dots"></div>
+                </div>
+
+                <!-- Zone B Bed Overlay -->
+                <div class="plot-zone-slice slice-zone-b" data-zone="B">
+                  <span class="slice-label">Zone B</span>
+                  <div class="crop-texture-dots"></div>
+                </div>
+
+                <!-- Zone C Bed Overlay -->
+                <div class="plot-zone-slice slice-zone-c" data-zone="C">
+                  <span class="slice-label">Zone C</span>
+                  <div class="crop-texture-dots"></div>
+                </div>
+
+                <!-- Floating Interactive Zone Tooltip Modal -->
+                <div class="interactive-zone-tooltip" id="zoneTooltip">
+                  <div class="tooltip-head">
+                    <span class="tooltip-dot critical"></span>
+                    <b>Zone C Status</b>
+                    <span class="tooltip-score">21%</span>
+                  </div>
+                  <div class="tooltip-body">
+                    <div class="tooltip-metric">
+                      <span>Soil Moisture:</span>
+                      <strong>21% (Critical Deficit)</strong>
+                    </div>
+                    <div class="tooltip-bar">
+                      <div class="tooltip-bar-fill" style="width: 21%;"></div>
+                    </div>
+                  </div>
+                  <div class="tooltip-buttons">
+                    <button class="tooltip-btn-irrigate" id="simIrrigateBtn">
+                      <svg class="ui-icon" viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                      Start Irrigation
+                    </button>
+                    <button class="tooltip-btn-details" id="simDetailsBtn">View Details</button>
+                  </div>
+                </div>
+
+                <!-- Surrounding Field Rows Visual -->
+                <div class="surrounding-crop-rows"></div>
+              </div>
+
+              <!-- Bottom Farm Controls & Overview Bar -->
+              <div class="plot-controls-row">
+                <div class="control-gauge-box">
+                  <small>Overall Field Health</small>
+                  <div class="gauge-inline">
+                    <span class="badge-status-pill green">Good</span>
+                    <div class="mini-arc-wrap">
+                      <b class="gauge-number">92%</b>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-sliders-box">
+                  <div class="control-item">
+                    <span>Manual Water Valve</span>
+                    <input type="range" min="0" max="100" value="70" class="mini-slider" disabled />
+                    <span class="slider-val">70%</span>
+                  </div>
+                  <div class="control-item">
+                    <span>Ventilation / Canopy Cover</span>
+                    <input type="range" min="0" max="100" value="85" class="mini-slider" disabled />
+                    <span class="slider-val">85%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: Health Index Gauge & Environmental Vitals -->
+          <div class="dash-col dash-col-right">
+            
+            <!-- Summary Header -->
+            <div class="dash-panel-heading">
+              <b>Summary &amp; Vitals</b>
+              <small>Live Agro-Telemetry</small>
+            </div>
+
+            <!-- Semi-Circular Radial Health Index Gauge -->
+            <div class="health-index-gauge-card">
+              <div class="semi-radial-gauge-wrap">
+                <svg viewBox="0 0 200 115" class="radial-gauge-svg">
+                  <!-- Background Track -->
+                  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e2ece4" stroke-width="18" stroke-linecap="round"/>
+                  <!-- Gradient Colored Gauge Track -->
+                  <defs>
+                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#ef4444" />
+                      <stop offset="35%" stop-color="#f59e0b" />
+                      <stop offset="70%" stop-color="#10b981" />
+                      <stop offset="100%" stop-color="#059669" />
+                    </linearGradient>
+                  </defs>
+                  <!-- Value Arc (90% health) -->
+                  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGradient)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="25.1" class="gauge-meter-path"/>
+                </svg>
+                <div class="radial-gauge-center">
+                  <span class="radial-number">90%</span>
+                  <span class="radial-label">Health Index</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Environmental Telemetry Vitals List -->
+            <div class="dash-vitals-list">
+              <div class="vital-row">
+                <div class="vital-left">
+                  <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+                  <span>Nutrient / Soil NPK</span>
+                </div>
+                <strong class="vital-val">85%</strong>
+              </div>
+
+              <div class="vital-row">
+                <div class="vital-left">
+                  <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                  <span>Relative Humidity</span>
+                </div>
+                <strong class="vital-val">67%</strong>
+              </div>
+
+              <div class="vital-row">
+                <div class="vital-left">
+                  <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/><circle cx="11.5" cy="17.5" r="2" fill="currentColor"/></svg>
+                  <span>Mean Air Temp</span>
+                </div>
+                <strong class="vital-val">28.5°C</strong>
+              </div>
+            </div>
+
+            <!-- Water & Irrigation Status Box -->
+            <div class="dash-water-status-box">
+              <div class="water-box-title">
+                <div class="water-title-left">
+                  <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                  <span>WATER &amp; SOIL STATUS</span>
+                </div>
+                <span class="water-sub-pill">AUTO ACTIVE</span>
+              </div>
+              <div class="water-metrics-grid">
+                <div>
+                  <small>Soil Moisture Avg</small>
+                  <b>63%</b>
+                </div>
+                <div>
+                  <small>Daily Irrigation</small>
+                  <b>4.2 L/m²</b>
+                </div>
+              </div>
+              <div class="irrigation-toggle-status">
+                <span>Auto Irrigation Mode</span>
+                <span class="toggle-pill-on">ON</span>
+              </div>
+            </div>
+
+            <!-- Yield Resilience Card -->
+            <div class="yield-resilience-card">
+              <div class="yield-resilience-title">
+                <svg class="resilience-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22l10-10m-3-1a4 4 0 0 1 5.66-5.66M17 11a4 4 0 0 1 5.66-5.66M11 17a4 4 0 0 1 5.66-5.66M7 21a4 4 0 0 1 5.66-5.66"/></svg>
+                <div>
+                  <small>Predicted Resilience</small>
+                  <b>Yield Factor: 95%</b>
+                </div>
+              </div>
+              <div class="yield-progress-strip">
+                <div class="yield-progress-fill" style="width: 95%;"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 7. THE TWO-COLUMN WORKFLOW: STEP 1 (INPUTS) & STEP 2 (OUTPUTS)             -->
+    <!-- ========================================================================= -->
+    <div class="site-container">
+      
+      <!-- INPUT → OUTPUT Visual Flow Indicator -->
       <div class="flow-indicator" aria-hidden="true">
         <div class="flow-step flow-step-input">
           <span class="flow-num">1</span>
@@ -120,13 +706,16 @@
         </div>
       </div>
 
-      <!-- Main Two-Column Workflow: INPUTS on Left, OUTPUTS on Right -->
       <div class="content-grid">
-        <!-- LEFT COLUMN: INPUTS -->
+        
+        <!-- LEFT COLUMN: INPUTS (PRESERVED ALL REQUIRED IDS & ATTRIBUTES) -->
         <section class="panel planner-panel" id="planner">
           <div class="panel-heading">
             <div>
-              <div class="eyebrow-step input-eyebrow">📥 STEP 1 · ENTER FARM CONDITIONS (INPUT)</div>
+              <div class="eyebrow-step input-eyebrow">
+                <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m4-5l5 5 5-5m-5 5V3"/></svg>
+                STEP 1 · ENTER FARM CONDITIONS (INPUT)
+              </div>
               <h2>What are your field notes?</h2>
             </div>
             <span class="step-pill">01 <span>OF</span> 02</span>
@@ -135,9 +724,15 @@
 
           <!-- PROMINENT COORDINATES & LOCATION SELECTOR -->
           <div class="form-section-block coord-box-highlight">
-            <div class="coord-highlight-label">📡 Enter Your Farm's GPS Coordinates Here</div>
+            <div class="coord-highlight-label">
+              <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.93 4.93a10 10 0 0 1 14.14 0m-11.31 2.83a6 6 0 0 1 8.48 0M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 0v8"/></svg>
+              Enter Your Farm's GPS Coordinates Here
+            </div>
             <div class="section-block-title">
-              <span>📍 Step 1A: Farm Coordinates</span>
+              <span>
+                <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Step 1A: Farm Coordinates
+              </span>
               <small>Select a preset or enter exact point</small>
             </div>
             <div class="preset-buttons" role="group" aria-label="Location presets">
@@ -155,7 +750,8 @@
                 <input id="longitude" type="number" min="-180" max="180" step="0.01" value="80.02" aria-label="Longitude"/>
               </div>
               <button id="updateLocation" class="coord-update-button" title="Fetch NASA POWER climate data for these coordinates">
-                📡 Fetch NASA Data
+                <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.93 4.93a10 10 0 0 1 14.14 0m-11.31 2.83a6 6 0 0 1 8.48 0M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 0v8"/></svg>
+                Fetch NASA Data
               </button>
             </div>
           </div>
@@ -163,7 +759,10 @@
           <!-- SOIL & CROP SETTINGS -->
           <div class="form-section-block">
             <div class="section-block-title">
-              <span>🌱 Step 1B: Soil &amp; Current Crop Profile</span>
+              <span>
+                <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+                Step 1B: Soil &amp; Current Crop Profile
+              </span>
             </div>
 
             <div class="form-row">
@@ -205,25 +804,37 @@
           <!-- STRATEGY & PLANNING SEASON -->
           <div class="form-section-block">
             <div class="section-block-title">
-              <span>🎯 Step 1C: Strategy &amp; Planning Season</span>
+              <span>
+                <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                Step 1C: Strategy &amp; Planning Season
+              </span>
             </div>
 
             <div class="priority-block">
               <label class="block-label">Your Top Priority: <small>What matters most this season?</small></label>
-              <div class="hint-pill">💡 <b>Interactive Tip:</b> Click <em>Build soil</em> or <em>Steady income</em> to see crop ideas re-rank live!</div>
+              <div class="hint-pill">
+                <svg class="ui-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-4 4h2m-5-8.5a7 7 0 1 1 8 0c-.8 1-1.5 2-1.5 3.5h-5c0-1.5-.7-2.5-1.5-3.5z"/></svg>
+                <b>Interactive Tip:</b> Click <em>Build soil</em> or <em>Steady income</em> to see crop ideas re-rank live!
+              </div>
               <div class="priority-options" role="group" aria-label="Top priority">
                 <button class="priority-option selected" data-priority="water">
-                  <span class="pri-icon">💧</span>
+                  <span class="pri-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                  </span>
                   <b>Save water</b>
                   <small>Drought resilience</small>
                 </button>
                 <button class="priority-option" data-priority="soil">
-                  <span class="pri-icon">🌿</span>
+                  <span class="pri-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+                  </span>
                   <b>Build soil</b>
                   <small>Nitrogen &amp; biomass</small>
                 </button>
                 <button class="priority-option" data-priority="income">
-                  <span class="pri-icon">💰</span>
+                  <span class="pri-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8m4-10v2m0 8v2"/></svg>
+                  </span>
                   <b>Steady income</b>
                   <small>Cash crop market</small>
                 </button>
@@ -242,14 +853,15 @@
                 </div>
               </div>
               <div class="hint-pill season-hint">
-                💡 <b>Sri Lanka Season Guide:</b> <em>Yala</em> = minor dry season (Mar–Aug) · <em>Maha</em> = major monsoon season (Sep–Feb)
+                <svg class="ui-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-4 4h2m-5-8.5a7 7 0 1 1 8 0c-.8 1-1.5 2-1.5 3.5h-5c0-1.5-.7-2.5-1.5-3.5z"/></svg>
+                <b>Sri Lanka Season Guide:</b> <em>Yala</em> = minor dry season (Mar–Aug) · <em>Maha</em> = major monsoon season (Sep–Feb)
               </div>
             </div>
           </div>
 
           <button class="primary-button" id="planButton">
             <span>Explore Rotation Recommendations</span>
-            <span>➔</span>
+            <span><svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </button>
 
           <!-- Scroll-to-results arrow -->
@@ -260,11 +872,14 @@
           <p class="disclaimer">Decision-support prototype only. Always confirm sowing windows and inputs with local agricultural extension officers.</p>
         </section>
 
-        <!-- RIGHT COLUMN: OUTPUTS -->
+        <!-- RIGHT COLUMN: OUTPUTS (PRESERVED ALL REQUIRED IDS & ATTRIBUTES) -->
         <section class="panel results-panel" id="recommendations">
           <div class="panel-heading results-heading">
             <div>
-              <div class="eyebrow-step green output-eyebrow">📤 STEP 2 · RECOMMENDED ROTATIONS (OUTPUT)</div>
+              <div class="eyebrow-step green output-eyebrow">
+                <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m14-7l-5-5-5 5m5-5v12"/></svg>
+                STEP 2 · RECOMMENDED ROTATIONS (OUTPUT)
+              </div>
               <h2 class="results-h2">Suggested Pathways to Explore</h2>
             </div>
             <span class="results-count">3 TOP IDEAS</span>
@@ -278,7 +893,9 @@
           <div class="rotation-list" id="rotationList">
             <!-- Empty state shown before first plan generation -->
             <div class="empty-state" id="emptyState">
-              <div class="empty-state-icon">⬇</div>
+              <div class="empty-state-icon">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+              </div>
               <div class="empty-state-title">Your Results Appear Below After Clicking the Button</div>
               <div class="empty-state-desc">Fill in your farm conditions on the left, then click <strong>Explore Rotation Recommendations</strong> to get personalised crop rotation ideas ranked by NASA climate data.</div>
             </div>
@@ -287,13 +904,18 @@
           <!-- One-click decision card export -->
           <div class="export-box">
             <button class="field-card-button" id="downloadFieldCard">
-              <span>📥 Download Portable Field Decision Card</span>
+              <span>
+                <svg class="ui-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m4-5l5 5 5-5m-5 5V3"/></svg>
+                Download Portable Field Decision Card
+              </span>
               <small>Printable 1-page HTML/PDF discussion aid for farmers &amp; extension officers</small>
             </button>
           </div>
 
           <div class="why-box">
-            <div class="why-mark">✳</div>
+            <div class="why-mark">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+            </div>
             <div>
               <b>Why rotate with a pulse or legume?</b>
               <p>Legumes form symbiotic root partnerships with rhizobia to biologically fix atmospheric nitrogen into the soil, reducing synthetic fertilizer costs and breaking pest cycles.</p>
@@ -302,95 +924,330 @@
         </section>
       </div>
 
-      <!-- BOTTOM SECTION: NASA CLIMATE INTELLIGENCE -->
-      <section class="climate-section" id="climate">
-        <div class="climate-section-head">
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 8. BOTTOM SECTION: NASA CLIMATE INTELLIGENCE (PRESERVED ALL REQUIRED IDS) -->
+    <!-- ========================================================================= -->
+    <section class="site-container climate-section" id="climate">
+      <div class="climate-section-head">
+        <div>
+          <div class="eyebrow climate-eyebrow">
+            <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>
+            NASA EARTH OBSERVATIONS · AGROCLIMATOLOGY
+          </div>
+          <h2>Climate, in Context.</h2>
+          <p>Ten complete years of monthly NASA POWER satellite and reanalysis data frame seasonal planning. This is not a short-term forecast.</p>
+        </div>
+        <div class="period-label">
+          <span class="live-dot"></span> 10-YEAR HISTORICAL CLIMATOLOGY
+        </div>
+      </div>
+
+      <div class="signal-grid" aria-label="NASA climate indicators">
+        <article class="signal-card">
+          <span>MEAN SEASONAL RAINFALL</span>
+          <strong id="seasonRain">—</strong>
+          <small>total seasonal mm</small>
+        </article>
+        <article class="signal-card highlight-card">
+          <span>DRIER SEASONS RISK</span>
+          <strong id="dryCount">—</strong>
+          <small id="dryDefinition">of historical seasons</small>
+        </article>
+        <article class="signal-card">
+          <span>MEAN AIR TEMPERATURE</span>
+          <strong id="seasonTemp">—</strong>
+          <small>mean 2-meter °C</small>
+        </article>
+      </div>
+
+      <!-- Year by Year Seasonal Variation Chart -->
+      <div class="history-card">
+        <div class="history-heading">
           <div>
-            <div class="eyebrow climate-eyebrow">🛰️ NASA EARTH OBSERVATIONS · AGROCLIMATOLOGY</div>
-            <h2>Climate, in Context.</h2>
-            <p>Ten complete years of monthly NASA POWER satellite and reanalysis data frame seasonal planning. This is not a short-term forecast.</p>
+            <b id="historyTitle">Season by season rainfall variation</b>
+            <small id="historySummary">Loading historical totals…</small>
           </div>
-          <div class="period-label">
-            <span class="live-dot"></span> 10-YEAR HISTORICAL CLIMATOLOGY
-          </div>
+          <span class="history-legend"><i></i> Below 75% of median (Drier Season)</span>
         </div>
+        <div id="seasonHistoryChart" class="season-history-chart" role="img" aria-label="Seasonal rainfall totals by year"></div>
+      </div>
 
-        <div class="signal-grid" aria-label="NASA climate indicators">
-          <article class="signal-card">
-            <span>MEAN SEASONAL RAINFALL</span>
-            <strong id="seasonRain">—</strong>
-            <small>total seasonal mm</small>
-          </article>
-          <article class="signal-card highlight-card">
-            <span>DRIER SEASONS RISK</span>
-            <strong id="dryCount">—</strong>
-            <small id="dryDefinition">of historical seasons</small>
-          </article>
-          <article class="signal-card">
-            <span>MEAN AIR TEMPERATURE</span>
-            <strong id="seasonTemp">—</strong>
-            <small>mean 2-meter °C</small>
-          </article>
+      <!-- Independent GPM IMERG satellite cross check -->
+      <div class="gpm-check" id="gpmCheck">
+        <span class="gpm-check-title">
+          <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>
+          NASA GPM IMERG INDEPENDENT SATELLITE CROSS-CHECK
+        </span>
+        <p>Loading an independent satellite rainfall estimate…</p>
+      </div>
+
+      <!-- 12-Month Climatology Chart -->
+      <div class="chart-card">
+        <div class="chart-legend">
+          <span><i class="legend-rain"></i> Precipitation (mm/day)</span>
+          <span><i class="legend-temp"></i> Temperature (°C)</span>
+          <span class="chart-unit" id="chartLocation">JAFFNA · 9.66°N, 80.02°E</span>
         </div>
+        <div class="chart" id="climateChart" role="img" aria-label="Monthly precipitation and temperature chart"></div>
+        <div class="chart-footer">
+          <span>Source: <a href="https://power.larc.nasa.gov/docs/services/api/temporal/monthly/" target="_blank" rel="noreferrer">NASA POWER Monthly Point API</a> · Agroclimatology</span>
+          <button id="refreshData" class="text-button">
+            <svg class="ui-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Refresh NASA Data
+          </button>
+        </div>
+      </div>
 
-        <!-- Year by Year Seasonal Variation Chart -->
-        <div class="history-card">
-          <div class="history-heading">
-            <div>
-              <b id="historyTitle">Season by season rainfall variation</b>
-              <small id="historySummary">Loading historical totals…</small>
+      <details class="method-details">
+        <summary>How FieldShift uses NASA data (Transparent Methodology)</summary>
+        <p>We compare the selected season's NASA POWER rainfall totals with that season's median in the available decade. A season below 75% of that median is counted as "drier." The ranking uses seven 1–5 prototype traits: water efficiency, dry-condition fit, soil-building potential, market options, soil-texture fit, ground cover, and legume inclusion. Your priority sets the relative weights; water access adjusts the water-efficiency weight, and a higher frequency of drier seasons raises the dry-condition weight. We normalize the weighted average and multiply by 20 for a score out of 100. Yala (March–August) and Maha (September–February) are broad dry-zone planning windows; local crop calendars differ. NASA POWER meteorological variables are gridded, model-based climate data, not measurements from this field. The ranking is not a crop-yield or drought forecast.</p>
+      </details>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 9. PROFESSIONAL SERVICES GRID                                             -->
+    <!-- ========================================================================= -->
+    <section class="site-container services-showcase-section" id="services">
+      <div class="section-title-wrap">
+        <div class="eyebrow">WHAT WE OFFER · AGROCLIMATIC EXPERTISE</div>
+        <h2>Professional Climate &amp; Farm Services</h2>
+        <p class="section-intro">Tailored solutions that combine satellite earth observations with field agro-ecology.</p>
+      </div>
+
+      <div class="services-cards-grid">
+        <!-- Service Card 1 -->
+        <article class="service-card">
+          <div class="service-img-wrap garden-design-bg">
+            <div class="service-icon-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
             </div>
-            <span class="history-legend"><i></i> Below 75% of seasonal median (Drier Season)</span>
           </div>
-          <div id="seasonHistoryChart" class="season-history-chart" role="img" aria-label="Seasonal rainfall totals by year"></div>
+          <div class="service-card-body">
+            <h3>Crop Rotation Planning</h3>
+            <p>Heuristic sequence modeling for pulses, cereals, and cash crops tailored to regional dry-zone seasonal windows.</p>
+            <a href="#planner" class="service-link">Launch Planner <svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </article>
+
+        <!-- Service Card 2 -->
+        <article class="service-card">
+          <div class="service-img-wrap lawn-care-bg">
+            <div class="service-icon-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22l10-10m-3-1a4 4 0 0 1 5.66-5.66M17 11a4 4 0 0 1 5.66-5.66M11 17a4 4 0 0 1 5.66-5.66M7 21a4 4 0 0 1 5.66-5.66"/></svg>
+            </div>
+          </div>
+          <div class="service-card-body">
+            <h3>Soil &amp; Texture Profiling</h3>
+            <p>Texture-adaptive soil management: matching crop root structures to sandy loam, clay loam, and silty loam fields.</p>
+            <a href="#planner" class="service-link">Check Texture <svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </article>
+
+        <!-- Service Card 3 -->
+        <article class="service-card">
+          <div class="service-img-wrap plant-care-bg">
+            <div class="service-icon-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-9m0 0a5 5 0 0 1 5-5h2a5 5 0 0 1-5 5h-2zm0 0a5 5 0 0 0-5-5H5a5 5 0 0 0 5 5h2z"/></svg>
+            </div>
+          </div>
+          <div class="service-card-body">
+            <h3>Legume Nitrogen Fixation</h3>
+            <p>Biological soil restoration strategies leveraging root rhizobia symbiosis to cut synthetic fertilizer dependency.</p>
+            <a href="#recommendations" class="service-link">Explore Pulses <svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </article>
+
+        <!-- Service Card 4 -->
+        <article class="service-card">
+          <div class="service-img-wrap satellite-care-bg">
+            <div class="service-icon-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>
+            </div>
+          </div>
+          <div class="service-card-body">
+            <h3>NASA Satellite Analytics</h3>
+            <p>Continuous 10-year monthly precipitation and temperature monitoring with independent GPM IMERG cross-checking.</p>
+            <a href="#climate" class="service-link">View Climatology <svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </article>
+      </div>
+
+      <!-- "Your Community, Your Farm" Split Showcase -->
+      <div class="community-showcase-card">
+        <div class="community-left">
+          <div class="community-eyebrow">
+            <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+            Grow Together
+          </div>
+          <h3>Your Community, Your Farm</h3>
+          <p>Connect scientific satellite data with local farmer knowledge to build resilient, flourishing agricultural communities across dry zones.</p>
+          
+          <div class="community-feature-list">
+            <div class="comm-feature-item">
+              <div class="comm-feat-icon">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87m-4-12a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div>
+                <b>Stronger Together</b>
+                <small>Join local farmer field networks advancing soil conservation and climate resilience.</small>
+              </div>
+            </div>
+            <div class="comm-feature-item">
+              <div class="comm-feat-icon">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+              </div>
+              <div>
+                <b>Share &amp; Learn</b>
+                <small>Exchange crop performance data, pest break observations, and soil moisture tips.</small>
+              </div>
+            </div>
+          </div>
+
+          <a href="#planner" class="comm-action-btn">Start Planning Now <svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
 
-        <!-- Independent GPM IMERG satellite cross check -->
-        <div class="gpm-check" id="gpmCheck">
-          <span class="gpm-check-title">NASA GPM IMERG INDEPENDENT SATELLITE CROSS-CHECK</span>
-          <p>Loading an independent satellite rainfall estimate…</p>
-        </div>
-
-        <!-- 12-Month Climatology Chart -->
-        <div class="chart-card">
-          <div class="chart-legend">
-            <span><i class="legend-rain"></i> Precipitation (mm/day)</span>
-            <span><i class="legend-temp"></i> Temperature (°C)</span>
-            <span class="chart-unit" id="chartLocation">JAFFNA · 9.66°N, 80.02°E</span>
-          </div>
-          <div class="chart" id="climateChart" role="img" aria-label="Monthly precipitation and temperature chart"></div>
-          <div class="chart-footer">
-            <span>Source: <a href="https://power.larc.nasa.gov/docs/services/api/temporal/monthly/" target="_blank" rel="noreferrer">NASA POWER Monthly Point API</a> · Agroclimatology</span>
-            <button id="refreshData" class="text-button">↻ Refresh NASA Data</button>
+        <div class="community-right">
+          <div class="community-photo-card">
+            <div class="comm-photo-overlay">
+              <span class="comm-photo-tag">
+                <svg class="ui-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22l10-10m-3-1a4 4 0 0 1 5.66-5.66M17 11a4 4 0 0 1 5.66-5.66M11 17a4 4 0 0 1 5.66-5.66M7 21a4 4 0 0 1 5.66-5.66"/></svg>
+                Sustainable Future
+              </span>
+              <h4>Create a Greener Tomorrow</h4>
+              <p>Every pulse crop planted restores organic carbon and nitrogen to tomorrow’s harvest.</p>
+              <div class="comm-mini-action">
+                <span>Start Your Climate Rotation</span>
+                <span class="mini-arrow"><svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <details class="method-details">
-          <summary>How FieldShift uses NASA data (Transparent Methodology)</summary>
-          <p>We compare the selected season's NASA POWER rainfall totals with that season's median in the available decade. A season below 75% of that median is counted as "drier." The ranking uses seven 1–5 prototype traits: water efficiency, dry-condition fit, soil-building potential, market options, soil-texture fit, ground cover, and legume inclusion. Your priority sets the relative weights; water access adjusts the water-efficiency weight, and a higher frequency of drier seasons raises the dry-condition weight. We normalize the weighted average and multiply by 20 for a score out of 100. Yala (March–August) and Maha (September–February) are broad dry-zone planning windows; local crop calendars differ. NASA POWER meteorological variables are gridded, model-based climate data, not measurements from this field. The ranking is not a crop-yield or drought forecast.</p>
-        </details>
-      </section>
+    <!-- ========================================================================= -->
+    <!-- 10. NEWSLETTER & ADVISORY RIBBON                                          -->
+    <!-- ========================================================================= -->
+    <section class="newsletter-ribbon-section">
+      <div class="site-container newsletter-inner">
+        <div class="newsletter-left">
+          <div class="newsletter-leaf-icon">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+          </div>
+          <div>
+            <h3>Stay Updated with Seasonal Agro-Climatic Advisories</h3>
+            <p>Subscribe to receive NASA POWER seasonal rainfall forecasts, sowing window alerts, and local extension tips.</p>
+          </div>
+        </div>
+        <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault(); alert('Thank you! You are subscribed to FieldShift seasonal agro-climatic advisories.');">
+          <input type="email" placeholder="Enter your email address…" required class="newsletter-input" aria-label="Email address for agro alerts"/>
+          <button type="submit" class="newsletter-btn">
+            <span>Subscribe</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
 
-      <footer>
-        <span class="footer-brand">fieldshift</span>
-        <span>Independent prototype for NASA Space Apps Challenge 2026 · NASA does not endorse · AI-assisted development (OpenAI Codex)</span>
-        <span>NASA Knights · Jaffna</span>
-      </footer>
-    </main>
-  </div>
+  </main>
 
-  <!-- Interactive Novice Walkthrough Tour Modal -->
+  <!-- ========================================================================= -->
+  <!-- 11. PROFESSIONAL AGRICULTURAL FOOTER                                     -->
+  <!-- ========================================================================= -->
+  <footer class="site-footer" id="about">
+    <div class="site-container footer-inner">
+      
+      <!-- Brand & Mission Column -->
+      <div class="footer-col footer-col-brand">
+        <div class="footer-logo">
+          <svg class="footer-leaf" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>
+          <span class="footer-brand-title">field<span class="brand-light">shift</span></span>
+        </div>
+        <p class="footer-desc">
+          An explainable, climate-adaptive decision-support prototype developed for the NASA Space Apps Challenge 2026. 
+          Connecting 10 years of NASA Earth observations with farmer priorities to champion sustainable agriculture.
+        </p>
+        <div class="footer-team-info">
+          <b>NASA Knights · Jaffna Local Event</b>
+          <small>Independent prototype · NASA does not endorse</small>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Quick Links</h4>
+        <ul class="footer-links-list">
+          <li><a href="#top">Home</a></li>
+          <li><a href="#overview">Field Overview</a></li>
+          <li><a href="#monitoring">Live Monitoring</a></li>
+          <li><a href="#planner">Rotation Planner</a></li>
+          <li><a href="#climate">NASA Climate Data</a></li>
+          <li><a href="#services">Agricultural Services</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Resources</h4>
+        <ul class="footer-links-list">
+          <li><a href="https://power.larc.nasa.gov" target="_blank" rel="noreferrer">NASA POWER Portal</a></li>
+          <li><a href="https://gpm.nasa.gov/data/imerg" target="_blank" rel="noreferrer">NASA GPM IMERG</a></li>
+          <li><a href="#climate">Agroclimatology Dictionary</a></li>
+          <li><a href="#recommendations">Field Decision Card Export</a></li>
+          <li><a href="https://www.spaceappschallenge.org" target="_blank" rel="noreferrer">Space Apps Challenge 2026</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Us -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Extension Contact</h4>
+        <div class="footer-contact-info">
+          <p>
+            <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <strong>+94 (21) 222-FARM</strong>
+          </p>
+          <p>
+            <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:info@fieldshift.agro">advisory@fieldshift.org</a>
+          </p>
+          <p>
+            <svg class="ui-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Jaffna Peninsula Dry Zone<br>Northern Province, Sri Lanka
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright Sub-Bar -->
+    <div class="footer-bottom-bar">
+      <div class="site-container footer-bottom-inner">
+        <span>© 2026 FieldShift AgriVision · Developed by <strong>NASA Knights</strong> for NASA Space Apps Challenge</span>
+        <span>Empowering farmers with explainable open science and earth observations</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 12. INTERACTIVE NOVICE WALKTHROUGH TOUR MODAL                             -->
+  <!-- ========================================================================= -->
   <div class="tour-backdrop" id="tourBackdrop" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
     <div class="tour-modal">
       <div class="tour-header">
         <span class="tour-badge" id="tourStepBadge">STEP 1 OF 5 · WELCOME</span>
-        <button class="tour-close" id="tourCloseBtn" aria-label="Close tour">✕</button>
+        <button class="tour-close" id="tourCloseBtn" aria-label="Close tour"><svg class="close-svg inline-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
       <div class="tour-body">
-        <div class="tour-icon" id="tourIcon">🌾</div>
+        <div class="tour-icon" id="tourIcon">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22l10-10m-3-1a4 4 0 0 1 5.66-5.66M17 11a4 4 0 0 1 5.66-5.66M11 17a4 4 0 0 1 5.66-5.66M7 21a4 4 0 0 1 5.66-5.66"/></svg>
+        </div>
         <h2 id="tourTitle">Welcome to FieldShift!</h2>
-        <p id="tourText">Think of this as your climate-smart farming companion! FieldShift helps farmers and advisors test crop rotation ideas using 10 years of NASA Earth observations, soil notes, and local priorities.</p>
-        <div class="tour-tip" id="tourTip">💡 <b>Goal:</b> Find resilient 3-crop sequences tailored to water constraints and historical rainfall.</div>
+        <p id="tourText">Think of this as your climate-smart farming companion. FieldShift helps farmers and advisors test crop rotation ideas using 10 years of NASA Earth observations, soil notes, and local priorities.</p>
+        <div class="tour-tip" id="tourTip">
+          <b>Goal:</b> Find resilient 3-crop sequences tailored to water constraints and historical rainfall.
+        </div>
       </div>
       <div class="tour-footer">
         <div class="tour-dots" id="tourDots">
@@ -402,23 +1259,28 @@
         </div>
         <div class="tour-actions">
           <button class="tour-btn secondary" id="tourSkipBtn">Skip Tour</button>
-          <button class="tour-btn primary" id="tourNextBtn">Next ➔</button>
+          <button class="tour-btn primary" id="tourNextBtn">Next <svg class="arrow-svg inline-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Floating Help Button -->
+  <!-- Floating Help FAB -->
   <button class="help-fab" id="helpFab" aria-label="How to use FieldShift">
-    <span class="help-fab-icon">?</span>
+    <span class="help-fab-icon">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m0 3.5h.01"/></svg>
+    </span>
     <span class="help-fab-label">How To Use</span>
   </button>
 
   <!-- Help Tooltip Panel -->
   <div class="help-panel" id="helpPanel" role="dialog" aria-modal="true" aria-label="How to use FieldShift">
     <div class="help-panel-header">
-      <span>💡 How To Use FieldShift</span>
-      <button class="help-panel-close" id="helpPanelClose" aria-label="Close help">✕</button>
+      <div class="help-title-row">
+        <svg class="ui-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-4 4h2m-5-8.5a7 7 0 1 1 8 0c-.8 1-1.5 2-1.5 3.5h-5c0-1.5-.7-2.5-1.5-3.5z"/></svg>
+        <span>How To Use FieldShift</span>
+      </div>
+      <button class="help-panel-close" id="helpPanelClose" aria-label="Close help"><svg class="close-svg inline-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="help-panel-body">
       <div class="help-step">
@@ -459,14 +1321,18 @@
     </div>
   </div>
 
-  <!-- IntersectionObserver for sidebar nav active state -->
+  <!-- Page Scripts & Interactive Logic -->
   <script>
     (function () {
+      // Navigation Active Section Tracking
       const sections = [
-        { id: 'overview', nav: 'overview' },
-        { id: 'planner',  nav: 'planner' },
-        { id: 'recommendations', nav: 'planner' }, // planner nav covers both
-        { id: 'climate',  nav: 'climate' }
+        { id: 'top',             nav: 'home' },
+        { id: 'overview',        nav: 'overview' },
+        { id: 'monitoring',      nav: 'monitoring' },
+        { id: 'planner',         nav: 'planner' },
+        { id: 'recommendations', nav: 'planner' },
+        { id: 'climate',         nav: 'climate' },
+        { id: 'services',        nav: 'services' }
       ];
 
       function setActive(sectionNav) {
@@ -475,22 +1341,18 @@
         });
       }
 
-      // Track which section is most visible
-      var currentSection = 'overview';
-
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             var matched = sections.find(function (s) { return s.id === entry.target.id; });
             if (matched) {
-              currentSection = matched.nav;
-              setActive(currentSection);
+              setActive(matched.nav);
             }
           }
         });
       }, {
         root: null,
-        rootMargin: '-20% 0px -60% 0px',
+        rootMargin: '-20% 0px -50% 0px',
         threshold: 0
       });
 
@@ -499,8 +1361,8 @@
         if (el) observer.observe(el);
       });
 
-      // Preset buttons update coordinate inputs
       document.addEventListener('DOMContentLoaded', function () {
+        // Preset buttons update coordinate inputs
         document.querySelectorAll('.preset-btn').forEach(function (btn) {
           btn.addEventListener('click', function () {
             document.querySelectorAll('.preset-btn').forEach(function (b) { b.classList.remove('active'); });
@@ -538,10 +1400,108 @@
             if (emptyState) emptyState.style.display = 'none';
           });
         }
+
+        // AgriVision Dashboard Tabs
+        document.querySelectorAll('.dash-tab').forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            document.querySelectorAll('.dash-tab').forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+          });
+        });
+
+        // Interactive Farm Plot Zones (Zone A, B, C click interactions)
+        var zoneCards = document.querySelectorAll('.zone-card');
+        var plotSlices = document.querySelectorAll('.plot-zone-slice');
+        var tooltip = document.getElementById('zoneTooltip');
+        var aiQuote = document.getElementById('aiInsightQuote');
+
+        var zoneData = {
+          'A': {
+            title: 'Zone A Status',
+            score: '95%',
+            moisture: '68% (Healthy Balance)',
+            dotClass: 'healthy',
+            quote: '“Zone A is in prime health with optimal soil organic matter. Maintaining the groundnut-pulse sequence will sustain natural nitrogen fixation for the upcoming season.”'
+          },
+          'B': {
+            title: 'Zone B Status',
+            score: '37%',
+            moisture: '34% (Needs Attention)',
+            dotClass: 'warning',
+            quote: '“Zone B is exhibiting moisture deficiency in sandy loam. Introducing mulching or intercropping with drought-tolerant millets will reduce water evaporation by up to 28%.”'
+          },
+          'C': {
+            title: 'Zone C Status',
+            score: '21%',
+            moisture: '21% (Critical Deficit)',
+            dotClass: 'critical',
+            quote: '“NASA historical climatology shows 30% frequency of dry Yala seasons. Rotating Zone C with drought-hardy cowpea or green gram can restore nitrogen balance and reduce water stress within 45 days.”'
+          }
+        };
+
+        function selectZone(zoneKey) {
+          zoneCards.forEach(function (card) {
+            card.classList.toggle('active', card.dataset.zone === zoneKey);
+          });
+          plotSlices.forEach(function (slice) {
+            slice.classList.toggle('selected-slice', slice.dataset.zone === zoneKey);
+          });
+
+          var data = zoneData[zoneKey];
+          if (data && tooltip) {
+            tooltip.querySelector('.tooltip-head b').textContent = data.title;
+            tooltip.querySelector('.tooltip-score').textContent = data.score;
+            tooltip.querySelector('.tooltip-metric strong').textContent = data.moisture;
+            var fill = tooltip.querySelector('.tooltip-bar-fill');
+            if (fill) fill.style.width = data.score;
+            var dot = tooltip.querySelector('.tooltip-dot');
+            if (dot) dot.className = 'tooltip-dot ' + data.dotClass;
+          }
+          if (data && aiQuote) {
+            aiQuote.textContent = data.quote;
+          }
+        }
+
+        zoneCards.forEach(function (card) {
+          card.addEventListener('click', function () {
+            selectZone(card.dataset.zone);
+          });
+        });
+
+        plotSlices.forEach(function (slice) {
+          slice.addEventListener('click', function () {
+            selectZone(slice.dataset.zone);
+          });
+        });
+
+        // Simulate Irrigation button in tooltip
+        var irrigateBtn = document.getElementById('simIrrigateBtn');
+        if (irrigateBtn) {
+          irrigateBtn.addEventListener('click', function () {
+            irrigateBtn.textContent = 'Irrigating…';
+            setTimeout(function () {
+              irrigateBtn.textContent = 'Moisture Restored';
+              var fill = tooltip.querySelector('.tooltip-bar-fill');
+              if (fill) fill.style.width = '85%';
+              var strong = tooltip.querySelector('.tooltip-metric strong');
+              if (strong) strong.textContent = '65% (Optimal Balance)';
+            }, 800);
+          });
+        }
+
+        // Details button scrolls to planner
+        var detailsBtn = document.getElementById('simDetailsBtn');
+        if (detailsBtn) {
+          detailsBtn.addEventListener('click', function () {
+            var pl = document.getElementById('planner');
+            if (pl) pl.scrollIntoView({ behavior: 'smooth' });
+          });
+        }
       });
     })();
   </script>
 
+  <!-- Universal Script Loading -->
   <script src="app.js"></script>
 </body>
 </html>

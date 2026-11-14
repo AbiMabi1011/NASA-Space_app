@@ -1,4 +1,4 @@
-﻿/**
+/**
  * FieldShift — Farm rotation planner
  * Self-contained bundle compiled from modular architecture in src/
  * Compatible with both file:/// (double-click) and http:// / https:// protocols.
@@ -575,20 +575,16 @@ function escapeHtml(value) {
   }[char]));
 }
 
+const RANK_LABELS = [
+  '#1 TOP RECOMMENDATION',
+  '#2 STRONG ALTERNATIVE',
+  '#3 DIVERSIFIED OPTION'
+];
+
 function renderRotationCards(container, rankedItems, stats, seasonName, waterAccessVal) {
-  // Hide empty state on first render
-  const emptyState = document.getElementById('emptyState');
-  if (emptyState) emptyState.style.display = 'none';
-
-  const RANK_META = [
-    { cls: 'rank-gold top-pick', medal: '\ud83e\udd47', label: 'TOP PICK' },
-    { cls: 'rank-silver',        medal: '\ud83e\udd48', label: 'RUNNER UP' },
-    { cls: 'rank-bronze',        medal: '\ud83e\udd49', label: '3RD PLACE' }
-  ];
-
   container.innerHTML = rankedItems.map((item, i) => {
     const nasaNote = stats.rows.length
-      ? `NASA ${seasonName}: ${stats.dryCount}/${stats.rows.length} historical seasons were below 75% of that season's median rainfall.`
+      ? `NASA ${seasonName}: ${stats.dryCount}/${stats.rows.length} historical seasons were below 75% of that season’s median rainfall.`
       : 'NASA seasonal history is not available yet.';
 
     const waterNote = waterAccessVal === 'reliable'
@@ -597,35 +593,26 @@ function renderRotationCards(container, rankedItems, stats, seasonName, waterAcc
         ? 'Limited irrigation keeps water demand in the ranking.'
         : 'Rainfed conditions give drought fit more weight.';
 
-    const rank = RANK_META[i] || { cls: '', medal: '', label: `#${i + 1}` };
-    const scoreWidth = Math.min(100, item.score);
+    const rankTag = RANK_LABELS[i] || `#${i + 1} OPTION`;
 
     return `
-      <article class="rotation-card ${rank.cls}">
-        <div class="rotation-top" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-          <div class="rotation-name">
-            <span class="rank-medal">${rank.medal}</span>0${i + 1} &nbsp; ${escapeHtml(item.name)}
-          </div>
-          <span class="match-badge">RULE SCORE ${item.score}/100</span>
+      <article class="rotation-card ${i === 0 ? 'top-pick' : ''}">
+        <div class="card-rank-strip">
+          <span class="rank-tag">${rankTag}</span>
+          <span class="match-badge">RULE MATCH: <strong>${item.score}</strong>/100</span>
         </div>
-        <div class="score-bar-wrap">
-          <div class="score-bar-label">
-            <span>${rank.label} &middot; Match Strength</span>
-            <span>${item.score}%</span>
-          </div>
-          <div class="score-bar">
-            <div class="score-bar-fill" style="width:${scoreWidth}%"></div>
-          </div>
+        <div class="rotation-top">
+          <div class="rotation-name">${escapeHtml(item.name)}</div>
         </div>
         <div class="crop-flow">
           ${item.crops.map((crop, j) => `
-            ${j ? '<span class="crop-arrow">\u2192</span>' : ''}
+            ${j ? '<svg class="crop-arrow inline-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' : ''}
             <span class="crop-chip">${escapeHtml(crop)}</span>
           `).join('')}
         </div>
         <div class="rotation-reason">${escapeHtml(item.note)}</div>
-        <div class="rotation-reason">
-          <strong>NASA climate signal:</strong> ${nasaNote} ${waterNote}
+        <div class="rotation-climate-signal">
+          <span class="signal-tag"><svg class="inline-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg> NASA Climate Signal:</span> ${nasaNote} ${waterNote}
         </div>
       </article>
     `;
@@ -634,25 +621,33 @@ function renderRotationCards(container, rankedItems, stats, seasonName, waterAcc
 
 function renderBaseline(container, currentCrop, waterAccessLabel) {
   container.innerHTML = `
-    <div class="baseline-label">YOUR CURRENT BASELINE</div>
-    <div class="baseline-main">${escapeHtml(currentCrop)} · ${escapeHtml(waterAccessLabel)}</div>
-    <div class="baseline-note">Use this as the comparison point; the app does not assume a yield or profit.</div>
+    <div class="baseline-header">
+      <span class="baseline-badge"><svg class="inline-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> YOUR STARTING BASELINE</span>
+      <span class="baseline-crop">${escapeHtml(currentCrop)}</span>
+    </div>
+    <div class="baseline-sub">Water Access: <strong>${escapeHtml(waterAccessLabel)}</strong> · Compare the suggestions below against your baseline.</div>
   `;
 }
 
 function renderGpmCrossCheck(container, dataMode, gpmHistory, powerStats, seasonName, selectedSeason) {
   if (dataMode !== 'nasa') {
     container.innerHTML = `
-      <span class="gpm-check-title">NASA GPM IMERG CROSS-CHECK</span>
-      <p>Sample mode: no NASA rainfall comparison is being shown.</p>
+      <div class="gpm-header">
+        <span class="gpm-check-title"><svg class="inline-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg> NASA GPM IMERG INDEPENDENT SATELLITE CROSS-CHECK</span>
+        <span class="gpm-badge offline">DEMO MODE</span>
+      </div>
+      <p>Running in sample fallback mode: no live satellite rainfall comparison is being shown.</p>
     `;
     return;
   }
 
   if (!gpmHistory.length) {
     container.innerHTML = `
-      <span class="gpm-check-title">NASA GPM IMERG CROSS-CHECK</span>
-      <p>The independent satellite rainfall series is unavailable. Rankings still use the NASA POWER Agroclimatology series shown above.</p>
+      <div class="gpm-header">
+        <span class="gpm-check-title"><svg class="inline-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg> NASA GPM IMERG INDEPENDENT SATELLITE CROSS-CHECK</span>
+        <span class="gpm-badge notice">UNAVAILABLE FOR GRID</span>
+      </div>
+      <p>The secondary satellite series is uncalibrated for this point. Ranking continues using the verified NASA POWER Agroclimatology series above.</p>
     `;
     return;
   }
@@ -663,26 +658,30 @@ function renderGpmCrossCheck(container, dataMode, gpmHistory, powerStats, season
       power: row.rainMm,
       gpm: gpmStats.rows.find(other => other.year === row.year)?.rainMm
     }))
-    .filter(x => Number.isFinite(x.gpm));
+    .filter(pair => Number.isFinite(pair.gpm));
 
   if (!common.length) {
     container.innerHTML = `
-      <span class="gpm-check-title">NASA GPM IMERG CROSS-CHECK</span>
-      <p>There are not enough matching seasons to compare these products.</p>
+      <div class="gpm-header">
+        <span class="gpm-check-title"><svg class="inline-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg> NASA GPM IMERG INDEPENDENT SATELLITE CROSS-CHECK</span>
+        <span class="gpm-badge notice">NO OVERLAPPING YEARS</span>
+      </div>
+      <p>Could not match complete ${seasonName} seasons between POWER and GPM IMERG for this grid cell.</p>
     `;
     return;
   }
 
-  const powerMean = average(common.map(x => x.power));
-  const gpmMean = average(common.map(x => x.gpm));
-  const difference = powerMean ? (Math.abs(gpmMean - powerMean) / powerMean) * 100 : 0;
+  const diffs = common.map(p => Math.abs(p.power - p.gpm));
+  const meanDiff = Math.round(average(diffs));
 
   container.innerHTML = `
-    <span class="gpm-check-title">NASA GPM IMERG CROSS-CHECK · ${common.length} MATCHED ${seasonName.toUpperCase()} SEASONS</span>
-    <p>Mean seasonal rainfall: POWER Agroclimatology ${Math.round(powerMean)} mm · GPM IMERG satellite estimate ${Math.round(gpmMean)} mm. The two products differ by ${Math.round(difference)}% in this period; FieldShift keeps them separate instead of blending them.</p>
+    <div class="gpm-header">
+      <span class="gpm-check-title"><svg class="inline-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg> NASA GPM IMERG INDEPENDENT SATELLITE CROSS-CHECK</span>
+      <span class="gpm-badge live">SATELLITE CROSS-CHECK ACTIVE</span>
+    </div>
+    <p>Compared across <strong>${common.length} complete ${seasonName} seasons</strong>: average seasonal difference between NASA POWER and GPM IMERG is <strong>${meanDiff} mm</strong>. FieldShift displays this independently and never blends the two precipitation estimates.</p>
   `;
 }
-
 
 
 // --- src/ui/fieldCardExporter.js ---
@@ -771,49 +770,49 @@ function downloadFieldCardFile(context) {
 
 // --- src/ui/tour.js ---
 /**
- * Interactive Onboarding Tour & Game-like Hints Guide
- * Provides step-by-step novice guidance and UI spotlights.
+ * Interactive Onboarding Tour & Guidance
+ * Provides step-by-step novice guidance and UI spotlights with clean SVG icons.
  */
 
 const TOUR_STEPS = [
   {
-    icon: '🌾',
+    icon: `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22l10-10m-3-1a4 4 0 0 1 5.66-5.66M17 11a4 4 0 0 1 5.66-5.66M11 17a4 4 0 0 1 5.66-5.66M7 21a4 4 0 0 1 5.66-5.66"/></svg>`,
     badge: 'STEP 1 OF 5 · WELCOME',
     title: 'Welcome to FieldShift!',
-    text: 'Think of this as your climate-smart farming companion! FieldShift helps farmers and advisors test crop rotation ideas using 10 years of NASA Earth observations, soil notes, and local priorities.',
-    tip: '💡 <b>Goal:</b> Find resilient 3-crop sequences tailored to water constraints and historical rainfall.',
+    text: 'Think of this as your climate-smart farming companion. FieldShift helps farmers and advisors test crop rotation ideas using 10 years of NASA Earth observations, soil notes, and local priorities.',
+    tip: '<b>Goal:</b> Find resilient 3-crop sequences tailored to water constraints and historical rainfall.',
     target: '#overview'
   },
   {
-    icon: '📍',
+    icon: `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
     badge: 'STEP 2 OF 5 · FIELD NOTES',
     title: 'Set Your Field Conditions',
     text: 'Check your coordinates (defaults to Jaffna Peninsula, Sri Lanka). You can enter field soil notes like soil texture (Sandy, Clay, or Silt loam), approximate pH, and current crop baseline.',
-    tip: '💡 <b>Tip:</b> Changing soil texture adjusts crop affinities—groundnut loves sandy soil, while rice prefers clay!',
+    tip: '<b>Tip:</b> Changing soil texture adjusts crop affinities—groundnut loves sandy soil, while rice prefers clay.',
     target: '.summary-grid'
   },
   {
-    icon: '🎯',
+    icon: `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
     badge: 'STEP 3 OF 5 · YOUR STRATEGY',
     title: 'Pick What Matters Most',
-    text: 'Choose your top farm priority: <b>Save water</b>, <b>Build soil</b>, or <b>Steady income</b>. Watch the 3 rotation pathways instantly re-rank with transparent 1–100 heuristic match scores!',
-    tip: '💡 <b>Interactive:</b> Click "Build soil" to see green manure crops like Sunn hemp and Cowpea jump to the top!',
+    text: 'Choose your top farm priority: <b>Save water</b>, <b>Build soil</b>, or <b>Steady income</b>. Watch the 3 rotation pathways instantly re-rank with transparent 1–100 heuristic match scores.',
+    tip: '<b>Interactive:</b> Click "Build soil" to see green manure crops like Sunn hemp and Cowpea jump to the top.',
     target: '#planner'
   },
   {
-    icon: '🛰️',
+    icon: `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l6-6m-4 8l6-6m2 2l4-4 4 4-4 4m-4-4l-6 6m12-2l2 2m-8 4l2 2m-12 2a4 4 0 0 0 5.66 0l1.41-1.41L7.41 14.93l-1.41 1.41a4 4 0 0 0 0 5.66z"/></svg>`,
     badge: 'STEP 4 OF 5 · NASA CLIMATE',
     title: 'Inspect NASA Climate History',
     text: 'Scroll down to inspect real NASA POWER climate data. The year-by-year bar chart highlights seasons receiving less than 75% of the median rainfall (drier seasons).',
-    tip: '💡 <b>Seasonal insight:</b> Sri Lanka has two seasons: <em>Yala</em> (dry season, Mar–Aug) and <em>Maha</em> (wet monsoon, Sep–Feb).',
+    tip: '<b>Seasonal insight:</b> Sri Lanka has two seasons: <em>Yala</em> (dry season, Mar–Aug) and <em>Maha</em> (wet monsoon, Sep–Feb).',
     target: '#climate'
   },
   {
-    icon: '📋',
+    icon: `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 12h6m-6 4h4"/></svg>`,
     badge: 'STEP 5 OF 5 · ACTIONABLE OUTPUT',
     title: 'Export a Field Decision Card',
     text: 'Once you find a rotation idea to discuss, click <b>"Download a field decision card"</b>. It generates a clean, printable 1-page PDF/HTML guide to take into conversations with extension officers.',
-    tip: '💡 <b>Trust:</b> FieldShift is an explainable decision aid, not a black-box yield forecast.',
+    tip: '<b>Trust:</b> FieldShift is an explainable decision aid, not a black-box yield forecast.',
     target: '#recommendations'
   }
 ];
@@ -894,7 +893,7 @@ class GuidedTour {
     if (!step) return;
 
     this.badge.textContent = step.badge;
-    this.icon.textContent = step.icon;
+    this.icon.innerHTML = step.icon;
     this.title.textContent = step.title;
     this.text.innerHTML = step.text;
     this.tip.innerHTML = step.tip;
@@ -904,19 +903,6 @@ class GuidedTour {
       this.dotsContainer.innerHTML = TOUR_STEPS.map((_, i) =>
         `<span class="tour-dot ${i === this.currentStep ? 'active' : ''}"></span>`
       ).join('');
-    }
-
-    // Update button text on last step
-    if (this.nextBtn) {
-      this.nextBtn.textContent = this.currentStep === TOUR_STEPS.length - 1 ? 'Get Started 🚀' : 'Next ➔';
-    }
-
-    // Smoothly scroll to the target section in view
-    if (step.target) {
-      const el = document.querySelector(step.target);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
     }
   }
 }
@@ -1123,6 +1109,16 @@ function setupEventListeners() {
     });
   });
 
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (elements.latitude) elements.latitude.value = btn.dataset.lat;
+      if (elements.longitude) elements.longitude.value = btn.dataset.lon;
+      loadClimate();
+    });
+  });
+
   document.querySelectorAll('.season-btn').forEach(button => {
     button.addEventListener('click', () => {
       document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('selected'));
@@ -1169,12 +1165,8 @@ function setupEventListeners() {
 
   if (elements.planButton) {
     elements.planButton.addEventListener('click', () => {
-      // Clear empty state and render plans
-      const emptyState = document.getElementById('emptyState');
-      if (emptyState) emptyState.style.display = 'none';
-      renderPlans();
       const rec = $('#recommendations');
-      if (rec) rec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (rec) rec.scrollIntoView({ behavior: 'smooth', block: 'center' });
       if (elements.stepPill) elements.stepPill.innerHTML = '02 <span>OF</span> 02';
     });
   }
