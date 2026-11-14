@@ -28,9 +28,9 @@ The current prototype uses Jaffna as its starting location, but accepts other co
    Parameters used: `T2M`, `PRECTOTCORR`; community `AG`; user-selected latitude/longitude; previous ten complete years.  
    Documentation: https://power.larc.nasa.gov/docs/services/api/temporal/monthly/
 
-2. **NASA POWER Monthly Point API — Hydrology / GPM IMERG rainfall cross-check**  
+2. **NASA POWER Monthly Point API — GPM IMERG rainfall cross-check**  
    URL pattern: `https://power.larc.nasa.gov/api/temporal/monthly/point`  
-   Parameter used: `IMERG_PRECTOT`; community `HY`; same coordinates and period when available.  
+   Parameter used: `IMERG_PRECTOT`; community `AG`; same coordinates and period when available.  
    NASA references: https://power.larc.nasa.gov/docs/methodology/data/sources_hydrology/ and https://gpm.nasa.gov/data/imerg
 
 3. **Local season framing**  

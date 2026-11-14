@@ -5,15 +5,76 @@
 
 FieldShift is a mobile-friendly, explainable decision-support prototype for comparing crop-rotation ideas with a farmer’s field notes and local priorities. The NASA POWER monthly data request runs for the selected farm coordinates and uses the previous ten complete years of temperature and precipitation history.
 
-## Run the app
+## How to Run the App
 
-Serve the project folder locally so the browser can call NASA POWER:
+FieldShift supports two convenient ways to run:
+
+### Option 1: Direct Double-Click (`file:///`) — No Server Required
+Simply double-click `index.html` from Windows Explorer or your file manager to open it in Chrome, Brave, Edge, or Firefox. 
+*FieldShift's compiled bundle (`app.js`) is universally compatible with the `file:///` protocol and avoids browser module CORS restrictions.*
+
+### Option 2: Local Web Server (Recommended for Live NASA API Calls)
+Because some strict browser settings restrict cross-origin `fetch()` requests when running under `file:///`, serving the app over HTTP is recommended for live NASA POWER data:
 
 ```powershell
 python -m http.server 8000
 ```
 
-Open `http://localhost:8000`. The browser needs internet access for NASA POWER. If the request fails, the interface switches to clearly labeled illustrative sample data.
+Then open `http://localhost:8000` in your web browser.
+
+> **Note on Offline Resilience:** If NASA POWER cannot be reached (e.g. offline, rate-limited, or blocked by local browser permissions), the application immediately and transparently switches to clearly labeled illustrative sample data (`DEMO DATA`).
+
+## Architecture & Project Structure
+
+FieldShift is engineered with a **Modular, Highly-Maintainable Architecture** located in `src/` coupled with a zero-dependency compiler (`node build.js`) that outputs universal client code:
+
+```
+NASA-Space_app/
+├── index.html                  # Semantic, accessible UI layout
+├── styles.css                  # Custom responsive dark/earthy aesthetic
+├── app.js                      # Universal standalone distribution bundle (file:/// & http)
+├── build.js                    # Zero-dependency bundler (compiles src/ -> app.js)
+├── src/
+│   ├── api/
+│   │   ├── nasaPowerClient.js  # NASA POWER Agroclimatology & GPM IMERG API client
+│   │   └── sampleData.js       # Labeled offline fallback & synthetic series generator
+│   ├── core/
+│   │   ├── cropCatalog.js      # 8 curated crop rotations with 1–5 traits & soil affinity
+│   │   ├── seasons.js          # Yala/Maha seasonal window math, day counts & 75% median
+│   │   └── rankingEngine.js    # Deterministic heuristic scoring engine & constraint weights
+│   ├── state/
+│   │   └── appState.js         # Reactive central state store (subscriber pattern)
+│   └── ui/
+│       ├── charts.js           # Monthly climatology chart & year-by-year seasonal bars
+│       ├── cardRenderer.js     # Rotation cards, baseline indicator & GPM cross-check
+│       └── fieldCardExporter.js# Portable HTML/PDF Field Decision Card exporter
+├── test_suite.js               # 19-test automated CLI verification suite (Node.js)
+├── test-runner.html            # In-browser interactive visual test suite
+├── SUBMISSION_KIT.md           # Space Apps submission copy, video script & checklist
+└── README.md
+```
+
+### Developing & Modifying Code:
+- Core business logic, APIs, and UI components are cleanly organized inside `src/`.
+- If you make edits to files in `src/`, recompile the universal bundle anytime with:
+  ```powershell
+  node build.js
+  ```
+
+## Automated Verification & Testing
+
+FieldShift includes both CLI and visual in-browser automated test suites to verify requirements, algorithms, and live NASA integrations:
+
+1. **CLI Automated Test Suite (Node.js):**
+   ```powershell
+   node test_suite.js
+   ```
+   *Runs 19 automated checks across codebase structure, DOM element IDs, seasonal precipitation math, dynamic heuristic re-ranking, reactive state management, live NASA POWER Monthly API connectivity, fallback modes, decision card HTML generation, and the 30-second walkthrough plan.*
+
+2. **Interactive Visual Test Runner (In-Browser):**
+   Serve the directory and navigate to:
+   `http://localhost:8000/test-runner.html`
+   *Executes live simulated user interactions (priority switching, Maha season toggling, water-access updates, soil sliders) directly inside a sandboxed iframe with real-time pass/fail status.*
 
 ## What the prototype does
 
