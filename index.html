@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f5f4ec" />
+  <meta name="theme-color" content="#13231a" />
   <meta name="description" content="An explainable farm rotation planning prototype using NASA POWER climate history, field notes, and farmer priorities." />
   <title>FieldShift — Farm rotation planner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,67 +18,530 @@
         <span class="brand-mark"><span></span><span></span><span></span></span>
         <span>field<span class="brand-light">shift</span></span>
       </a>
-      <div class="workspace-label">WORKSPACE</div>
+      <div class="workspace-label">CLIMATE INTELLIGENCE</div>
       <nav aria-label="Main navigation">
-        <a class="nav-item active" href="#overview"><span class="nav-icon">◫</span> Field overview</a>
-        <a class="nav-item" href="#planner"><span class="nav-icon">⟳</span> Rotation planner</a>
-        <a class="nav-item" href="#climate"><span class="nav-icon">◉</span> Climate signals</a>
+        <a class="nav-item active" href="#overview" data-section="overview"><span class="nav-icon">◫</span> Field overview</a>
+        <a class="nav-item" href="#planner" data-section="planner"><span class="nav-icon">⟳</span> Rotation planner</a>
+        <a class="nav-item" href="#climate" data-section="climate"><span class="nav-icon">◉</span> NASA Climate signals</a>
       </nav>
       <div class="sidebar-bottom">
-        <div class="team-card"><div class="team-icon">✳</div><div><b>NASA Knights</b><small>Jaffna Local Event</small></div></div>
-        <div class="sidebar-note">A planning companion for resilient fields.</div>
+        <div class="team-card">
+          <div class="team-icon">✳</div>
+          <div>
+            <b>NASA Knights</b>
+            <small>Jaffna Local Event · 2026</small>
+          </div>
+        </div>
+        <div class="sidebar-note">An explainable planning companion for climate-resilient agriculture.</div>
       </div>
     </aside>
 
     <main id="top">
-      <header class="topbar"><div class="crumb">FIELD TOOLS <span>/</span> FIELD OVERVIEW</div><div class="top-actions"><span class="live-dot"></span><span>Prototype</span><button class="avatar" aria-label="NASA Knights">NK</button></div></header>
+      <header class="topbar">
+        <div class="crumb">NASA SPACE APPS 2026 <span>/</span> FIELD ROTATION PLANNER</div>
+        <div class="top-actions">
+          <button id="openTourBtn" class="tour-pill" aria-label="Open guided tour">💡 Interactive Walkthrough</button>
+          <span class="live-dot"></span>
+          <span class="prototype-badge">Live Prototype</span>
+          <button class="avatar" aria-label="NASA Knights">NK</button>
+        </div>
+      </header>
+
       <section class="page-heading" id="overview">
-        <div><div class="eyebrow">FIELD SHIFT · JAFFNA, SRI LANKA</div><h1>Plan for the season<br><em>you’re growing into.</em></h1><p class="intro">Explore crop rotations shaped by local priorities, soil conditions, and NASA climate history.</p></div>
-        <div class="heading-stamp"><span class="stamp-star">✳</span><span>NASA<br>EARTH DATA</span></div>
+        <div>
+          <div class="eyebrow">FIELD SHIFT · CLIMATE-ADAPTIVE DECISION SUPPORT</div>
+          <h1>Plan for the season<br><em>you're growing into.</em></h1>
+          <p class="intro">Compare sustainable crop rotations shaped by your field notes, farmer priorities, and 10 complete years of NASA Earth observations.</p>
+        </div>
+        <div class="heading-stamp">
+          <span class="stamp-star">✳</span>
+          <div>
+            <b>NASA POWER API</b>
+            <small>AGROCLIMATOLOGY</small>
+          </div>
+        </div>
       </section>
 
+      <!-- Top Field Summary Strip -->
       <section class="summary-grid" aria-label="Field summary">
-        <article class="summary-card location-card"><div class="card-top"><span class="card-label">YOUR FIELD</span><span class="tiny-icon">⌖</span></div><div class="location-name" id="locationName">Jaffna peninsula</div><div class="location-detail">NASA POWER nearest climate grid cell</div><div class="coordinates" id="coordinateLabel">9.66° N <span>·</span> 80.02° E</div></article>
-        <article class="summary-card climate-card"><div class="card-top"><span class="card-label">CLIMATE SNAPSHOT</span><span class="data-tag" id="dataStatus">DEMO DATA</span></div><div class="climate-numbers"><div><strong id="tempValue">—</strong><small>°C avg temp</small></div><div class="metric-divider"></div><div><strong id="rainValue">—</strong><small>mm/day avg</small></div></div><div class="climate-caption" id="climateCaption">Monthly climatology · loading…</div></article>
-        <article class="summary-card soil-card"><div class="card-top"><span class="card-label">SOIL PROFILE</span><span class="edit-label">EDIT BELOW ↓</span></div><div class="soil-name" id="soilSummary">Sandy loam</div><div class="soil-detail"><span class="soil-dot"></span><span id="phSummary">pH 6.5 · farmer-entered estimate</span></div><div class="soil-hint">Based on your field notes</div></article>
+        <article class="summary-card location-card">
+          <div class="card-top">
+            <span class="card-label">📍 YOUR FIELD LOCATION</span>
+            <span class="tiny-icon">⌖</span>
+          </div>
+          <div class="location-name" id="locationName">Jaffna peninsula</div>
+          <div class="location-detail">NASA POWER nearest climate grid cell</div>
+          <div class="coordinates" id="coordinateLabel">9.66° N <span>·</span> 80.02° E</div>
+        </article>
+
+        <article class="summary-card climate-card">
+          <div class="card-top">
+            <span class="card-label">🛰️ CLIMATE SNAPSHOT (10-YR)</span>
+            <span class="data-tag" id="dataStatus">DEMO DATA</span>
+          </div>
+          <div class="climate-numbers">
+            <div>
+              <strong id="tempValue">—</strong>
+              <small>°C avg temp</small>
+            </div>
+            <div class="metric-divider"></div>
+            <div>
+              <strong id="rainValue">—</strong>
+              <small>mm/day rain</small>
+            </div>
+          </div>
+          <div class="climate-caption" id="climateCaption">Monthly climatology · loading…</div>
+        </article>
+
+        <article class="summary-card soil-card">
+          <div class="card-top">
+            <span class="card-label">🌱 FIELD SOIL PROFILE</span>
+            <span class="edit-label">EDIT BELOW ↓</span>
+          </div>
+          <div class="soil-name" id="soilSummary">Sandy loam</div>
+          <div class="soil-detail">
+            <span class="soil-dot"></span>
+            <span id="phSummary">pH 6.5 · farmer-entered estimate</span>
+          </div>
+          <div class="soil-hint">Recorded from your field notes</div>
+        </article>
       </section>
 
+      <!-- INPUT → OUTPUT flow indicator -->
+      <div class="flow-indicator" aria-hidden="true">
+        <div class="flow-step flow-step-input">
+          <span class="flow-num">1</span>
+          <span class="flow-label">Enter Farm Conditions</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step flow-step-output">
+          <span class="flow-num">2</span>
+          <span class="flow-label">Get Rotation Recommendations</span>
+        </div>
+      </div>
+
+      <!-- Main Two-Column Workflow: INPUTS on Left, OUTPUTS on Right -->
       <div class="content-grid">
+        <!-- LEFT COLUMN: INPUTS -->
         <section class="panel planner-panel" id="planner">
-          <div class="panel-heading"><div><div class="eyebrow">ROTATION PLANNER</div><h2>What matters on your farm?</h2></div><span class="step-pill">01 <span>OF</span> 02</span></div>
-          <p class="panel-intro">Adjust the starting assumptions. Your recommendations update as you go.</p>
-          <div class="form-row"><label for="soilType">Soil texture</label><select id="soilType"><option value="sandy">Sandy loam</option><option value="clay">Clay loam</option><option value="silt">Silty loam</option></select></div>
-          <div class="form-row"><label for="soilPh">Soil pH <span class="field-value" id="phValue">6.5</span></label><input id="soilPh" type="range" min="4.5" max="8.5" step="0.1" value="6.5" /></div>
-          <div class="form-row"><label for="currentCrop">Current main crop</label><select id="currentCrop"><option>Rice</option><option>Groundnut</option><option>Onion</option><option>Chilli</option><option>Green gram</option><option>Other / mixed</option></select></div>
-          <div class="form-row"><label for="waterAccess">Water access</label><select id="waterAccess"><option value="rainfed">Mostly rainfed</option><option value="limited">Limited irrigation</option><option value="reliable">Reliable irrigation</option></select></div>
-          <div class="form-row coordinate-row"><label>Farm coordinates <span class="sub-label">NASA POWER point</span></label><div class="coordinate-inputs"><input id="latitude" type="number" min="-90" max="90" step="0.01" value="9.66" aria-label="Latitude"/><input id="longitude" type="number" min="-180" max="180" step="0.01" value="80.02" aria-label="Longitude"/><button id="updateLocation" class="small-button">Update</button></div></div>
-          <div class="form-row priority-row"><label>Top priority <span class="sub-label">Choose one to start</span></label><div class="priority-options" role="group" aria-label="Top priority"><button class="priority-option selected" data-priority="water"><span>◌</span>Save water</button><button class="priority-option" data-priority="soil"><span>✳</span>Build soil</button><button class="priority-option" data-priority="income"><span>↗</span>Steady income</button></div></div>
-          <div class="season-row"><div><b>Planning season</b><small>Choose a starting season</small></div><div class="season-switch" role="group" aria-label="Planning season"><button class="season-btn selected" data-season="yala">Yala</button><button class="season-btn" data-season="maha">Maha</button></div></div>
-          <button class="primary-button" id="planButton">Explore rotation ideas <span>↗</span></button>
-          <p class="disclaimer">Planning ideas only. Confirm crop timing and soil needs with local agricultural officers.</p>
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow-step input-eyebrow">📥 STEP 1 · ENTER FARM CONDITIONS (INPUT)</div>
+              <h2>What are your field notes?</h2>
+            </div>
+            <span class="step-pill">01 <span>OF</span> 02</span>
+          </div>
+          <p class="panel-intro">Configure your field's location, soil, water access, and seasonal goal below.</p>
+
+          <!-- PROMINENT COORDINATES & LOCATION SELECTOR -->
+          <div class="form-section-block coord-box-highlight">
+            <div class="coord-highlight-label">📡 Enter Your Farm's GPS Coordinates Here</div>
+            <div class="section-block-title">
+              <span>📍 Step 1A: Farm Coordinates</span>
+              <small>Select a preset or enter exact point</small>
+            </div>
+            <div class="preset-buttons" role="group" aria-label="Location presets">
+              <button type="button" class="preset-btn active" data-lat="9.66" data-lon="80.02">Jaffna Peninsula</button>
+              <button type="button" class="preset-btn" data-lat="8.31" data-lon="80.40">Anuradhapura</button>
+              <button type="button" class="preset-btn" data-lat="9.38" data-lon="80.40">Kilinochchi</button>
+            </div>
+            <div class="coordinate-inputs-box">
+              <div class="coord-field">
+                <label for="latitude">Latitude (°N/S)</label>
+                <input id="latitude" type="number" min="-90" max="90" step="0.01" value="9.66" aria-label="Latitude"/>
+              </div>
+              <div class="coord-field">
+                <label for="longitude">Longitude (°E/W)</label>
+                <input id="longitude" type="number" min="-180" max="180" step="0.01" value="80.02" aria-label="Longitude"/>
+              </div>
+              <button id="updateLocation" class="coord-update-button" title="Fetch NASA POWER climate data for these coordinates">
+                📡 Fetch NASA Data
+              </button>
+            </div>
+          </div>
+
+          <!-- SOIL & CROP SETTINGS -->
+          <div class="form-section-block">
+            <div class="section-block-title">
+              <span>🌱 Step 1B: Soil &amp; Current Crop Profile</span>
+            </div>
+
+            <div class="form-row">
+              <label for="soilType">Soil Texture</label>
+              <select id="soilType">
+                <option value="sandy">Sandy loam (Dry zone typical)</option>
+                <option value="clay">Clay loam (Moisture retaining)</option>
+                <option value="silt">Silty loam (Nutrient rich)</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="soilPh">Estimated Soil pH: <span class="field-value" id="phValue">6.5</span></label>
+              <input id="soilPh" type="range" min="4.5" max="8.5" step="0.1" value="6.5" aria-label="Soil pH"/>
+            </div>
+
+            <div class="form-row">
+              <label for="currentCrop">Current Main Crop</label>
+              <select id="currentCrop">
+                <option>Rice</option>
+                <option>Groundnut</option>
+                <option>Onion</option>
+                <option>Chilli</option>
+                <option>Green gram</option>
+                <option>Other / mixed</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="waterAccess">Water Access Level</label>
+              <select id="waterAccess">
+                <option value="rainfed">Mostly rainfed (High drought exposure)</option>
+                <option value="limited">Limited irrigation (Agro-well / tank)</option>
+                <option value="reliable">Reliable irrigation (Canal / deep well)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- STRATEGY & PLANNING SEASON -->
+          <div class="form-section-block">
+            <div class="section-block-title">
+              <span>🎯 Step 1C: Strategy &amp; Planning Season</span>
+            </div>
+
+            <div class="priority-block">
+              <label class="block-label">Your Top Priority: <small>What matters most this season?</small></label>
+              <div class="hint-pill">💡 <b>Interactive Tip:</b> Click <em>Build soil</em> or <em>Steady income</em> to see crop ideas re-rank live!</div>
+              <div class="priority-options" role="group" aria-label="Top priority">
+                <button class="priority-option selected" data-priority="water">
+                  <span class="pri-icon">💧</span>
+                  <b>Save water</b>
+                  <small>Drought resilience</small>
+                </button>
+                <button class="priority-option" data-priority="soil">
+                  <span class="pri-icon">🌿</span>
+                  <b>Build soil</b>
+                  <small>Nitrogen &amp; biomass</small>
+                </button>
+                <button class="priority-option" data-priority="income">
+                  <span class="pri-icon">💰</span>
+                  <b>Steady income</b>
+                  <small>Cash crop market</small>
+                </button>
+              </div>
+            </div>
+
+            <div class="season-block">
+              <div class="season-header">
+                <div>
+                  <b>Planning Season</b>
+                  <small>Select your target growing window</small>
+                </div>
+                <div class="season-switch" role="group" aria-label="Planning season">
+                  <button class="season-btn selected" data-season="yala">Yala</button>
+                  <button class="season-btn" data-season="maha">Maha</button>
+                </div>
+              </div>
+              <div class="hint-pill season-hint">
+                💡 <b>Sri Lanka Season Guide:</b> <em>Yala</em> = minor dry season (Mar–Aug) · <em>Maha</em> = major monsoon season (Sep–Feb)
+              </div>
+            </div>
+          </div>
+
+          <button class="primary-button" id="planButton">
+            <span>Explore Rotation Recommendations</span>
+            <span>➔</span>
+          </button>
+
+          <!-- Scroll-to-results arrow -->
+          <a href="#recommendations" class="see-results-arrow" id="seeResultsArrow" aria-label="See rotation results">
+            ↓ See Results
+          </a>
+
+          <p class="disclaimer">Decision-support prototype only. Always confirm sowing windows and inputs with local agricultural extension officers.</p>
         </section>
 
+        <!-- RIGHT COLUMN: OUTPUTS -->
         <section class="panel results-panel" id="recommendations">
-          <div class="panel-heading results-heading"><div><div class="eyebrow">SUGGESTED PATHWAYS</div><h2>Rotations to explore</h2></div><span class="results-count">3 IDEAS</span></div>
+          <div class="panel-heading results-heading">
+            <div>
+              <div class="eyebrow-step green output-eyebrow">📤 STEP 2 · RECOMMENDED ROTATIONS (OUTPUT)</div>
+              <h2 class="results-h2">Suggested Pathways to Explore</h2>
+            </div>
+            <span class="results-count">3 TOP IDEAS</span>
+          </div>
           <p class="panel-intro" id="resultIntro">A water-conscious starting point for a warm, seasonal climate.</p>
+
+          <!-- Current baseline indicator -->
           <div class="current-baseline" id="currentBaseline"></div>
-          <div class="rotation-list" id="rotationList"></div>
-          <button class="field-card-button" id="downloadFieldCard">↓ Download a field decision card</button>
-          <div class="why-box"><div class="why-mark">✳</div><div><b>Why include a legume?</b><p>Legumes can add nitrogen to the soil through their root partnerships. Actual benefits depend on the crop, soil, and management.</p></div></div>
+
+          <!-- Dynamic 3 rotation cards -->
+          <div class="rotation-list" id="rotationList">
+            <!-- Empty state shown before first plan generation -->
+            <div class="empty-state" id="emptyState">
+              <div class="empty-state-icon">⬇</div>
+              <div class="empty-state-title">Your Results Appear Below After Clicking the Button</div>
+              <div class="empty-state-desc">Fill in your farm conditions on the left, then click <strong>Explore Rotation Recommendations</strong> to get personalised crop rotation ideas ranked by NASA climate data.</div>
+            </div>
+          </div>
+
+          <!-- One-click decision card export -->
+          <div class="export-box">
+            <button class="field-card-button" id="downloadFieldCard">
+              <span>📥 Download Portable Field Decision Card</span>
+              <small>Printable 1-page HTML/PDF discussion aid for farmers &amp; extension officers</small>
+            </button>
+          </div>
+
+          <div class="why-box">
+            <div class="why-mark">✳</div>
+            <div>
+              <b>Why rotate with a pulse or legume?</b>
+              <p>Legumes form symbiotic root partnerships with rhizobia to biologically fix atmospheric nitrogen into the soil, reducing synthetic fertilizer costs and breaking pest cycles.</p>
+            </div>
+          </div>
         </section>
       </div>
 
+      <!-- BOTTOM SECTION: NASA CLIMATE INTELLIGENCE -->
       <section class="climate-section" id="climate">
-        <div class="climate-section-head"><div><div class="eyebrow">NASA POWER · AGROCLIMATOLOGY</div><h2>Climate, in context.</h2><p>Long-term monthly patterns help frame seasonal planning. They are not a farm-level forecast.</p></div><div class="period-label"><span class="live-dot"></span> MONTHLY CLIMATOLOGY</div></div>
-        <div class="signal-grid" aria-label="NASA climate indicators"><article class="signal-card"><span>SEASON RAINFALL</span><strong id="seasonRain">—</strong><small>mean total · mm</small></article><article class="signal-card"><span>DRIER SEASONS</span><strong id="dryCount">—</strong><small id="dryDefinition">of historical seasons</small></article><article class="signal-card"><span>SEASON TEMP</span><strong id="seasonTemp">—</strong><small>mean · °C</small></article></div>
-        <div class="history-card"><div class="history-heading"><div><b id="historyTitle">Season by season</b><small id="historySummary">Loading historical totals…</small></div><span class="history-legend"><i></i> Below 75% of median</span></div><div id="seasonHistoryChart" class="season-history-chart" role="img" aria-label="Seasonal rainfall totals by year"></div></div>
-        <div class="gpm-check" id="gpmCheck"><span class="gpm-check-title">NASA GPM IMERG CROSS-CHECK</span><p>Loading an independent satellite rainfall estimate…</p></div>
-        <div class="chart-card"><div class="chart-legend"><span><i class="legend-rain"></i> Precipitation (mm/day)</span><span><i class="legend-temp"></i> Temperature</span><span class="chart-unit" id="chartLocation">JAFFNA · 9.66°N, 80.02°E</span></div><div class="chart" id="climateChart" role="img" aria-label="Monthly precipitation and temperature chart"></div><div class="chart-footer"><span>Source: <a href="https://power.larc.nasa.gov/docs/services/api/temporal/monthly/" target="_blank" rel="noreferrer">NASA POWER Monthly Point API</a> · Agroclimatology</span><button id="refreshData" class="text-button">↻ Refresh data</button></div></div>
-        <details class="method-details"><summary>How FieldShift uses NASA data</summary><p>We compare the selected season’s NASA POWER rainfall totals with that season’s median in the available decade. A season below 75% of that median is counted as “drier.” The ranking uses seven 1–5 prototype traits: water efficiency, dry-condition fit, soil-building potential, market options, soil-texture fit, ground cover, and legume inclusion. Your priority sets the relative weights; water access adjusts the water-efficiency weight, and a higher frequency of drier seasons raises the dry-condition weight. We normalize the weighted average and multiply by 20 for a score out of 100. Yala (March–August) and Maha (September–February) are broad dry-zone planning windows; local crop calendars differ. NASA POWER meteorological variables are gridded, model-based climate data, not measurements from this field. The ranking is not a crop-yield or drought forecast.</p></details>
+        <div class="climate-section-head">
+          <div>
+            <div class="eyebrow climate-eyebrow">🛰️ NASA EARTH OBSERVATIONS · AGROCLIMATOLOGY</div>
+            <h2>Climate, in Context.</h2>
+            <p>Ten complete years of monthly NASA POWER satellite and reanalysis data frame seasonal planning. This is not a short-term forecast.</p>
+          </div>
+          <div class="period-label">
+            <span class="live-dot"></span> 10-YEAR HISTORICAL CLIMATOLOGY
+          </div>
+        </div>
+
+        <div class="signal-grid" aria-label="NASA climate indicators">
+          <article class="signal-card">
+            <span>MEAN SEASONAL RAINFALL</span>
+            <strong id="seasonRain">—</strong>
+            <small>total seasonal mm</small>
+          </article>
+          <article class="signal-card highlight-card">
+            <span>DRIER SEASONS RISK</span>
+            <strong id="dryCount">—</strong>
+            <small id="dryDefinition">of historical seasons</small>
+          </article>
+          <article class="signal-card">
+            <span>MEAN AIR TEMPERATURE</span>
+            <strong id="seasonTemp">—</strong>
+            <small>mean 2-meter °C</small>
+          </article>
+        </div>
+
+        <!-- Year by Year Seasonal Variation Chart -->
+        <div class="history-card">
+          <div class="history-heading">
+            <div>
+              <b id="historyTitle">Season by season rainfall variation</b>
+              <small id="historySummary">Loading historical totals…</small>
+            </div>
+            <span class="history-legend"><i></i> Below 75% of seasonal median (Drier Season)</span>
+          </div>
+          <div id="seasonHistoryChart" class="season-history-chart" role="img" aria-label="Seasonal rainfall totals by year"></div>
+        </div>
+
+        <!-- Independent GPM IMERG satellite cross check -->
+        <div class="gpm-check" id="gpmCheck">
+          <span class="gpm-check-title">NASA GPM IMERG INDEPENDENT SATELLITE CROSS-CHECK</span>
+          <p>Loading an independent satellite rainfall estimate…</p>
+        </div>
+
+        <!-- 12-Month Climatology Chart -->
+        <div class="chart-card">
+          <div class="chart-legend">
+            <span><i class="legend-rain"></i> Precipitation (mm/day)</span>
+            <span><i class="legend-temp"></i> Temperature (°C)</span>
+            <span class="chart-unit" id="chartLocation">JAFFNA · 9.66°N, 80.02°E</span>
+          </div>
+          <div class="chart" id="climateChart" role="img" aria-label="Monthly precipitation and temperature chart"></div>
+          <div class="chart-footer">
+            <span>Source: <a href="https://power.larc.nasa.gov/docs/services/api/temporal/monthly/" target="_blank" rel="noreferrer">NASA POWER Monthly Point API</a> · Agroclimatology</span>
+            <button id="refreshData" class="text-button">↻ Refresh NASA Data</button>
+          </div>
+        </div>
+
+        <details class="method-details">
+          <summary>How FieldShift uses NASA data (Transparent Methodology)</summary>
+          <p>We compare the selected season's NASA POWER rainfall totals with that season's median in the available decade. A season below 75% of that median is counted as "drier." The ranking uses seven 1–5 prototype traits: water efficiency, dry-condition fit, soil-building potential, market options, soil-texture fit, ground cover, and legume inclusion. Your priority sets the relative weights; water access adjusts the water-efficiency weight, and a higher frequency of drier seasons raises the dry-condition weight. We normalize the weighted average and multiply by 20 for a score out of 100. Yala (March–August) and Maha (September–February) are broad dry-zone planning windows; local crop calendars differ. NASA POWER meteorological variables are gridded, model-based climate data, not measurements from this field. The ranking is not a crop-yield or drought forecast.</p>
+        </details>
       </section>
-      <footer><span class="footer-brand">fieldshift</span><span>Independent prototype · NASA does not endorse · AI-assisted code (OpenAI Codex)</span><span>NASA Knights · 2026</span></footer>
+
+      <footer>
+        <span class="footer-brand">fieldshift</span>
+        <span>Independent prototype for NASA Space Apps Challenge 2026 · NASA does not endorse · AI-assisted development (OpenAI Codex)</span>
+        <span>NASA Knights · Jaffna</span>
+      </footer>
     </main>
   </div>
+
+  <!-- Interactive Novice Walkthrough Tour Modal -->
+  <div class="tour-backdrop" id="tourBackdrop" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+    <div class="tour-modal">
+      <div class="tour-header">
+        <span class="tour-badge" id="tourStepBadge">STEP 1 OF 5 · WELCOME</span>
+        <button class="tour-close" id="tourCloseBtn" aria-label="Close tour">✕</button>
+      </div>
+      <div class="tour-body">
+        <div class="tour-icon" id="tourIcon">🌾</div>
+        <h2 id="tourTitle">Welcome to FieldShift!</h2>
+        <p id="tourText">Think of this as your climate-smart farming companion! FieldShift helps farmers and advisors test crop rotation ideas using 10 years of NASA Earth observations, soil notes, and local priorities.</p>
+        <div class="tour-tip" id="tourTip">💡 <b>Goal:</b> Find resilient 3-crop sequences tailored to water constraints and historical rainfall.</div>
+      </div>
+      <div class="tour-footer">
+        <div class="tour-dots" id="tourDots">
+          <span class="tour-dot active"></span>
+          <span class="tour-dot"></span>
+          <span class="tour-dot"></span>
+          <span class="tour-dot"></span>
+          <span class="tour-dot"></span>
+        </div>
+        <div class="tour-actions">
+          <button class="tour-btn secondary" id="tourSkipBtn">Skip Tour</button>
+          <button class="tour-btn primary" id="tourNextBtn">Next ➔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Help Button -->
+  <button class="help-fab" id="helpFab" aria-label="How to use FieldShift">
+    <span class="help-fab-icon">?</span>
+    <span class="help-fab-label">How To Use</span>
+  </button>
+
+  <!-- Help Tooltip Panel -->
+  <div class="help-panel" id="helpPanel" role="dialog" aria-modal="true" aria-label="How to use FieldShift">
+    <div class="help-panel-header">
+      <span>💡 How To Use FieldShift</span>
+      <button class="help-panel-close" id="helpPanelClose" aria-label="Close help">✕</button>
+    </div>
+    <div class="help-panel-body">
+      <div class="help-step">
+        <span class="help-step-num input-step">1</span>
+        <div>
+          <b>Enter GPS Coordinates</b>
+          <p>Select a preset location or type your farm's latitude/longitude, then click "Fetch NASA Data".</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <span class="help-step-num input-step">2</span>
+        <div>
+          <b>Set Farm Conditions</b>
+          <p>Choose your soil type, pH, current crop, and water access level.</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <span class="help-step-num input-step">3</span>
+        <div>
+          <b>Pick Your Priority</b>
+          <p>Select Save water, Build soil, or Steady income — rankings update instantly.</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <span class="help-step-num output-step">4</span>
+        <div>
+          <b>View Rotation Results</b>
+          <p>See 3 ranked rotation pathways on the right panel with NASA climate reasoning.</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <span class="help-step-num climate-step">5</span>
+        <div>
+          <b>Explore NASA Climate Data</b>
+          <p>Scroll down to see 10 years of seasonal rainfall and temperature history.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IntersectionObserver for sidebar nav active state -->
+  <script>
+    (function () {
+      const sections = [
+        { id: 'overview', nav: 'overview' },
+        { id: 'planner',  nav: 'planner' },
+        { id: 'recommendations', nav: 'planner' }, // planner nav covers both
+        { id: 'climate',  nav: 'climate' }
+      ];
+
+      function setActive(sectionNav) {
+        document.querySelectorAll('.nav-item[data-section]').forEach(function (el) {
+          el.classList.toggle('active', el.dataset.section === sectionNav);
+        });
+      }
+
+      // Track which section is most visible
+      var currentSection = 'overview';
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var matched = sections.find(function (s) { return s.id === entry.target.id; });
+            if (matched) {
+              currentSection = matched.nav;
+              setActive(currentSection);
+            }
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      });
+
+      sections.forEach(function (s) {
+        var el = document.getElementById(s.id);
+        if (el) observer.observe(el);
+      });
+
+      // Preset buttons update coordinate inputs
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.preset-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            document.querySelectorAll('.preset-btn').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            var latInput = document.getElementById('latitude');
+            var lonInput = document.getElementById('longitude');
+            if (latInput) latInput.value = btn.dataset.lat;
+            if (lonInput) lonInput.value = btn.dataset.lon;
+          });
+        });
+
+        // Help FAB toggle
+        var helpFab = document.getElementById('helpFab');
+        var helpPanel = document.getElementById('helpPanel');
+        var helpClose = document.getElementById('helpPanelClose');
+        if (helpFab && helpPanel) {
+          helpFab.addEventListener('click', function () {
+            helpPanel.classList.toggle('open');
+          });
+          if (helpClose) {
+            helpClose.addEventListener('click', function () {
+              helpPanel.classList.remove('open');
+            });
+          }
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') helpPanel.classList.remove('open');
+          });
+        }
+
+        // Plan button — also clear empty state
+        var planBtn = document.getElementById('planButton');
+        if (planBtn) {
+          planBtn.addEventListener('click', function () {
+            var emptyState = document.getElementById('emptyState');
+            if (emptyState) emptyState.style.display = 'none';
+          });
+        }
+      });
+    })();
+  </script>
+
   <script src="app.js"></script>
 </body>
 </html>

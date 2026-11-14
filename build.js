@@ -32,7 +32,8 @@ const files = [
   'src/state/appState.js',
   'src/ui/charts.js',
   'src/ui/cardRenderer.js',
-  'src/ui/fieldCardExporter.js'
+  'src/ui/fieldCardExporter.js',
+  'src/ui/tour.js'
 ];
 
 let bundleBody = '';
@@ -243,6 +244,16 @@ function setupEventListeners() {
     });
   });
 
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (elements.latitude) elements.latitude.value = btn.dataset.lat;
+      if (elements.longitude) elements.longitude.value = btn.dataset.lon;
+      loadClimate();
+    });
+  });
+
   document.querySelectorAll('.season-btn').forEach(button => {
     button.addEventListener('click', () => {
       document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('selected'));
@@ -304,6 +315,9 @@ function init() {
   if (elements.climateCaption) elements.climateCaption.textContent = \`Preparing \${START_YEAR}–\${END_YEAR} NASA POWER history…\`;
   renderClimate();
   loadClimate();
+  if (typeof GuidedTour !== 'undefined') {
+    new GuidedTour();
+  }
 }
 
 if (typeof document !== 'undefined') {

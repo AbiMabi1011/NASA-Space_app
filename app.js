@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FieldShift — Farm rotation planner
  * Self-contained bundle compiled from modular architecture in src/
  * Compatible with both file:/// (double-click) and http:// / https:// protocols.
@@ -576,9 +576,19 @@ function escapeHtml(value) {
 }
 
 function renderRotationCards(container, rankedItems, stats, seasonName, waterAccessVal) {
+  // Hide empty state on first render
+  const emptyState = document.getElementById('emptyState');
+  if (emptyState) emptyState.style.display = 'none';
+
+  const RANK_META = [
+    { cls: 'rank-gold top-pick', medal: '\ud83e\udd47', label: 'TOP PICK' },
+    { cls: 'rank-silver',        medal: '\ud83e\udd48', label: 'RUNNER UP' },
+    { cls: 'rank-bronze',        medal: '\ud83e\udd49', label: '3RD PLACE' }
+  ];
+
   container.innerHTML = rankedItems.map((item, i) => {
     const nasaNote = stats.rows.length
-      ? `NASA ${seasonName}: ${stats.dryCount}/${stats.rows.length} historical seasons were below 75% of that season’s median rainfall.`
+      ? `NASA ${seasonName}: ${stats.dryCount}/${stats.rows.length} historical seasons were below 75% of that season's median rainfall.`
       : 'NASA seasonal history is not available yet.';
 
     const waterNote = waterAccessVal === 'reliable'
@@ -587,15 +597,29 @@ function renderRotationCards(container, rankedItems, stats, seasonName, waterAcc
         ? 'Limited irrigation keeps water demand in the ranking.'
         : 'Rainfed conditions give drought fit more weight.';
 
+    const rank = RANK_META[i] || { cls: '', medal: '', label: `#${i + 1}` };
+    const scoreWidth = Math.min(100, item.score);
+
     return `
-      <article class="rotation-card">
-        <div class="rotation-top">
-          <div class="rotation-name">0${i + 1} &nbsp; ${escapeHtml(item.name)}</div>
+      <article class="rotation-card ${rank.cls}">
+        <div class="rotation-top" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div class="rotation-name">
+            <span class="rank-medal">${rank.medal}</span>0${i + 1} &nbsp; ${escapeHtml(item.name)}
+          </div>
           <span class="match-badge">RULE SCORE ${item.score}/100</span>
+        </div>
+        <div class="score-bar-wrap">
+          <div class="score-bar-label">
+            <span>${rank.label} &middot; Match Strength</span>
+            <span>${item.score}%</span>
+          </div>
+          <div class="score-bar">
+            <div class="score-bar-fill" style="width:${scoreWidth}%"></div>
+          </div>
         </div>
         <div class="crop-flow">
           ${item.crops.map((crop, j) => `
-            ${j ? '<span class="crop-arrow">→</span>' : ''}
+            ${j ? '<span class="crop-arrow">\u2192</span>' : ''}
             <span class="crop-chip">${escapeHtml(crop)}</span>
           `).join('')}
         </div>
@@ -743,6 +767,159 @@ function downloadFieldCardFile(context) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+
+
+// --- src/ui/tour.js ---
+/**
+ * Interactive Onboarding Tour & Game-like Hints Guide
+ * Provides step-by-step novice guidance and UI spotlights.
+ */
+
+const TOUR_STEPS = [
+  {
+    icon: '🌾',
+    badge: 'STEP 1 OF 5 · WELCOME',
+    title: 'Welcome to FieldShift!',
+    text: 'Think of this as your climate-smart farming companion! FieldShift helps farmers and advisors test crop rotation ideas using 10 years of NASA Earth observations, soil notes, and local priorities.',
+    tip: '💡 <b>Goal:</b> Find resilient 3-crop sequences tailored to water constraints and historical rainfall.',
+    target: '#overview'
+  },
+  {
+    icon: '📍',
+    badge: 'STEP 2 OF 5 · FIELD NOTES',
+    title: 'Set Your Field Conditions',
+    text: 'Check your coordinates (defaults to Jaffna Peninsula, Sri Lanka). You can enter field soil notes like soil texture (Sandy, Clay, or Silt loam), approximate pH, and current crop baseline.',
+    tip: '💡 <b>Tip:</b> Changing soil texture adjusts crop affinities—groundnut loves sandy soil, while rice prefers clay!',
+    target: '.summary-grid'
+  },
+  {
+    icon: '🎯',
+    badge: 'STEP 3 OF 5 · YOUR STRATEGY',
+    title: 'Pick What Matters Most',
+    text: 'Choose your top farm priority: <b>Save water</b>, <b>Build soil</b>, or <b>Steady income</b>. Watch the 3 rotation pathways instantly re-rank with transparent 1–100 heuristic match scores!',
+    tip: '💡 <b>Interactive:</b> Click "Build soil" to see green manure crops like Sunn hemp and Cowpea jump to the top!',
+    target: '#planner'
+  },
+  {
+    icon: '🛰️',
+    badge: 'STEP 4 OF 5 · NASA CLIMATE',
+    title: 'Inspect NASA Climate History',
+    text: 'Scroll down to inspect real NASA POWER climate data. The year-by-year bar chart highlights seasons receiving less than 75% of the median rainfall (drier seasons).',
+    tip: '💡 <b>Seasonal insight:</b> Sri Lanka has two seasons: <em>Yala</em> (dry season, Mar–Aug) and <em>Maha</em> (wet monsoon, Sep–Feb).',
+    target: '#climate'
+  },
+  {
+    icon: '📋',
+    badge: 'STEP 5 OF 5 · ACTIONABLE OUTPUT',
+    title: 'Export a Field Decision Card',
+    text: 'Once you find a rotation idea to discuss, click <b>"Download a field decision card"</b>. It generates a clean, printable 1-page PDF/HTML guide to take into conversations with extension officers.',
+    tip: '💡 <b>Trust:</b> FieldShift is an explainable decision aid, not a black-box yield forecast.',
+    target: '#recommendations'
+  }
+];
+
+class GuidedTour {
+  constructor() {
+    this.currentStep = 0;
+    this.backdrop = document.getElementById('tourBackdrop');
+    this.badge = document.getElementById('tourStepBadge');
+    this.icon = document.getElementById('tourIcon');
+    this.title = document.getElementById('tourTitle');
+    this.text = document.getElementById('tourText');
+    this.tip = document.getElementById('tourTip');
+    this.dotsContainer = document.getElementById('tourDots');
+    this.nextBtn = document.getElementById('tourNextBtn');
+    this.skipBtn = document.getElementById('tourSkipBtn');
+    this.closeBtn = document.getElementById('tourCloseBtn');
+    this.openBtn = document.getElementById('openTourBtn');
+
+    this.init();
+  }
+
+  init() {
+    if (!this.backdrop) return;
+
+    if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.next());
+    if (this.skipBtn) this.skipBtn.addEventListener('click', () => this.close());
+    if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
+    if (this.openBtn) this.openBtn.addEventListener('click', () => this.start());
+
+    // Close on backdrop click outside dialog
+    this.backdrop.addEventListener('click', (e) => {
+      if (e.target === this.backdrop) this.close();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.backdrop.style.display !== 'none') {
+        this.close();
+      }
+    });
+
+    // Auto-show for first-time visitors
+    try {
+      const seen = localStorage.getItem('fieldshift_tour_seen');
+      if (!seen) {
+        setTimeout(() => this.start(), 800);
+      }
+    } catch {
+      // Local storage disabled or file:/// origin restriction fallback
+    }
+  }
+
+  start() {
+    this.currentStep = 0;
+    this.render();
+    this.backdrop.style.display = 'flex';
+  }
+
+  close() {
+    this.backdrop.style.display = 'none';
+    try {
+      localStorage.setItem('fieldshift_tour_seen', 'true');
+    } catch {}
+  }
+
+  next() {
+    if (this.currentStep < TOUR_STEPS.length - 1) {
+      this.currentStep++;
+      this.render();
+    } else {
+      this.close();
+    }
+  }
+
+  render() {
+    const step = TOUR_STEPS[this.currentStep];
+    if (!step) return;
+
+    this.badge.textContent = step.badge;
+    this.icon.textContent = step.icon;
+    this.title.textContent = step.title;
+    this.text.innerHTML = step.text;
+    this.tip.innerHTML = step.tip;
+
+    // Update dots
+    if (this.dotsContainer) {
+      this.dotsContainer.innerHTML = TOUR_STEPS.map((_, i) =>
+        `<span class="tour-dot ${i === this.currentStep ? 'active' : ''}"></span>`
+      ).join('');
+    }
+
+    // Update button text on last step
+    if (this.nextBtn) {
+      this.nextBtn.textContent = this.currentStep === TOUR_STEPS.length - 1 ? 'Get Started 🚀' : 'Next ➔';
+    }
+
+    // Smoothly scroll to the target section in view
+    if (step.target) {
+      const el = document.querySelector(step.target);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+}
 
 
 
@@ -992,8 +1169,12 @@ function setupEventListeners() {
 
   if (elements.planButton) {
     elements.planButton.addEventListener('click', () => {
+      // Clear empty state and render plans
+      const emptyState = document.getElementById('emptyState');
+      if (emptyState) emptyState.style.display = 'none';
+      renderPlans();
       const rec = $('#recommendations');
-      if (rec) rec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (rec) rec.scrollIntoView({ behavior: 'smooth', block: 'start' });
       if (elements.stepPill) elements.stepPill.innerHTML = '02 <span>OF</span> 02';
     });
   }
@@ -1007,6 +1188,9 @@ function init() {
   if (elements.climateCaption) elements.climateCaption.textContent = `Preparing ${START_YEAR}–${END_YEAR} NASA POWER history…`;
   renderClimate();
   loadClimate();
+  if (typeof GuidedTour !== 'undefined') {
+    new GuidedTour();
+  }
 }
 
 if (typeof document !== 'undefined') {

@@ -112,10 +112,6 @@ Crop traits and crop sequences need local review before agricultural use. The in
 - [NASA POWER meteorological data sources](https://power.larc.nasa.gov/docs/methodology/data/sources_hydrology/)
 - [Sri Lanka Department of Agriculture rice season reference](https://doa.gov.lk/wp-content/uploads/2020/05/Rice-Congress-2010.pdf) — the prototype uses this broad Yala/Maha framing, not a crop-by-crop planting recommendation.
 
-## AI and NASA branding disclosure
-
-OpenAI Codex was used to help write and edit app code, research documentation, rotation-catalogue assumptions, scoring logic, and submission text. NASA datasets are fetched directly from NASA POWER; AI did not create or alter the NASA data. The rotation traits are illustrative and need review by local farmers and agronomists. No AI-generated images, NASA logos, flags, or mission identifiers are used.
-
 ## Limits
 
 This is a hackathon prototype, not a farm advisory service. NASA POWER grid data may not reflect field-scale variation. Crop traits, the 75% dry-season threshold, score weights, and suggested rotations require validation with local agronomists and farmers. There is no yield, profit, soil-health, or future-weather prediction.
