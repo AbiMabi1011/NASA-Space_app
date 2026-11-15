@@ -5,29 +5,36 @@
  *   - Maha: September to February (spans year transition)
  */
 
-export const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-export const MONTH_KEYS = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+import { Season, SeasonStats, SeasonRow, ClimateRecord } from '../types/index.js';
 
-export function average(values) {
+export const MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const MONTH_KEYS: string[] = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
+export function average(values: number[]): number {
   return values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0;
 }
 
-export function median(values) {
+export function median(values: number[]): number {
   const sorted = [...values].sort((x, y) => x - y);
   if (!sorted.length) return 0;
   const mid = Math.floor(sorted.length / 2);
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
-export function daysInMonth(year, month) {
+export function daysInMonth(year: number, month: number): number {
   return new Date(year, month, 0).getDate();
 }
 
-export function coordinateText(value, positive, negative) {
+export function coordinateText(value: number, positive: string, negative: string): string {
   return `${Math.abs(value).toFixed(2)}° ${value < 0 ? negative : positive}`;
 }
 
-export function seasonMonths(season) {
+export interface SeasonMonthDef {
+  month: number;
+  offset: number;
+}
+
+export function seasonMonths(season: Season | string): SeasonMonthDef[] {
   return season === 'yala'
     ? [
         { month: 3, offset: 0 },
@@ -55,14 +62,23 @@ export function seasonMonths(season) {
  * - App-defined 75% median dry-season threshold
  * - Count of historical seasons below the threshold
  */
-export function buildSeasonStats(season, records) {
+export function buildSeasonStats(season: Season | string, records?: ClimateRecord[]): SeasonStats {
   if (!records || !records.length) {
-    return { rows: [], baseline: 0, dryLimit: 0, dryCount: 0, dryRatio: 0, meanRain: 0, meanTemp: 0 };
+    return {
+      season: (season as Season) || 'yala',
+      rows: [],
+      baseline: 0,
+      dryLimit: 0,
+      dryCount: 0,
+      dryRatio: 0,
+      meanRain: 0,
+      meanTemp: 0
+    };
   }
 
   const calendar = seasonMonths(season);
   const years = [...new Set(records.map(r => r.year))];
-  const rows = [];
+  const rows: SeasonRow[] = [];
 
   for (const startYear of years) {
     const picked = calendar.map(({ month, offset }) =>
@@ -70,11 +86,11 @@ export function buildSeasonStats(season, records) {
     );
     if (picked.some(r => !r)) continue;
 
-    const totalRain = picked.reduce((sum, r) => sum + r.rainDaily * daysInMonth(r.year, r.month), 0);
-    const totalDays = picked.reduce((sum, r) => sum + daysInMonth(r.year, r.month), 0);
-    const meanTemp = picked.reduce((sum, r) => sum + r.temp * daysInMonth(r.year, r.month), 0) / (totalDays || 1);
+    const totalRain = picked.reduce((sum, r) => sum + (r ? r.rainDaily * daysInMonth(r.year, r.month) : 0), 0);
+    const totalDays = picked.reduce((sum, r) => sum + (r ? daysInMonth(r.year, r.month) : 0), 0);
+    const meanTemp = picked.reduce((sum, r) => sum + (r ? r.temp * daysInMonth(r.year, r.month) : 0), 0) / (totalDays || 1);
 
-    rows.push({ year: startYear, rainMm: totalRain, temp: meanTemp });
+    rows.push({ year: startYear, rainMm: totalRain, meanTemp });
   }
 
   const baseline = median(rows.map(r => r.rainMm));
@@ -82,13 +98,13 @@ export function buildSeasonStats(season, records) {
   const dryCount = rows.filter(r => r.rainMm < dryLimit).length;
 
   return {
+    season: (season as Season) || 'yala',
     rows,
     baseline,
     dryLimit,
     dryCount,
     dryRatio: rows.length ? dryCount / rows.length : 0,
     meanRain: average(rows.map(r => r.rainMm)),
-    meanTemp: average(rows.map(r => r.temp))
+    meanTemp: average(rows.map(r => r.meanTemp))
   };
 }
-

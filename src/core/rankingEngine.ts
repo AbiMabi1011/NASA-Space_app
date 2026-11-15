@@ -8,27 +8,37 @@
  *   - Entered soil texture ('sandy', 'clay', 'silt')
  */
 
-export const PRIORITY_LABELS = {
+import { CropRotation, SeasonStats, SoilType, Priority, WaterAccess } from '../types/index.js';
+
+export const PRIORITY_LABELS: Record<Priority, string> = {
   water: 'Save water',
   soil: 'Build soil',
   income: 'Steady income'
 };
 
-export function scoreRotation(item, stats, texture, selectedPriority, waterAccessVal) {
+export function scoreRotation(
+  item: CropRotation,
+  stats: SeasonStats,
+  texture: SoilType | string,
+  selectedPriority: Priority | string,
+  waterAccessVal: WaterAccess | string
+): number {
   const dryYears = stats.dryRatio || 0;
   const waterAccessWeight = waterAccessVal === 'rainfed' ? 1.0 : waterAccessVal === 'limited' ? 0.72 : 0.42;
 
-  const dimensions = {
+  const validTexture = (texture === 'sandy' || texture === 'clay' || texture === 'silt') ? texture : 'sandy';
+
+  const dimensions: Record<string, number> = {
     waterEfficiency: 6 - item.water,
     droughtFit: item.dry,
     soilBuilding: item.soil,
     marketOptions: item.market,
-    soilMatch: item.texture[texture] || 3,
+    soilMatch: item.texture[validTexture] || 3,
     cover: item.cover,
     legume: 5
   };
 
-  const weights = selectedPriority === 'water'
+  const weights: Record<string, number> = selectedPriority === 'water'
     ? {
         waterEfficiency: 0.27 * waterAccessWeight,
         droughtFit: 0.12 + 0.28 * dryYears,
@@ -65,13 +75,19 @@ export function scoreRotation(item, stats, texture, selectedPriority, waterAcces
   return Math.round(normalized * 20);
 }
 
-export function rankRotations(rotations, stats, texture, selectedPriority, waterAccessVal, limit = 3) {
+export function rankRotations(
+  rotations: CropRotation[],
+  stats: SeasonStats,
+  texture: SoilType | string,
+  selectedPriority: Priority | string,
+  waterAccessVal: WaterAccess | string,
+  limit: number = 3
+): CropRotation[] {
   return rotations
     .map(item => ({
       ...item,
       score: scoreRotation(item, stats, texture, selectedPriority, waterAccessVal)
     }))
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => (b.score || 0) - (a.score || 0))
     .slice(0, limit);
 }
-
