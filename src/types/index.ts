@@ -22,6 +22,12 @@ export interface CropRotation {
   cover: number;
   note: string;
   score?: number;
+  biome?: 'tropical' | 'temperate' | 'mediterranean' | 'universal';
+  minTemp?: number;
+  maxTemp?: number;
+  optPhMin?: number;
+  optPhMax?: number;
+  reasonTag?: string;
 }
 
 export interface SeasonRow {

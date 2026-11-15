@@ -12,7 +12,7 @@ import NewsletterRibbon from './components/NewsletterRibbon.js';
 import Footer from './components/Footer.js';
 import TourModal from './components/TourModal.js';
 
-import { ROTATIONS } from './core/cropCatalog.js';
+import { getCatalogForClimate } from './core/cropCatalog.js';
 import { buildSeasonStats } from './core/seasons.js';
 import { rankRotations } from './core/rankingEngine.js';
 import { SAMPLE, makeDemoHistory } from './api/sampleData.js';
@@ -114,7 +114,7 @@ export default function App(): React.JSX.Element {
       setDataMode('nasa');
     } catch (err) {
       console.warn('NASA POWER API unavailable; falling back to labeled sample data.', err);
-      const demo = makeDemoHistory(START_YEAR, END_YEAR);
+      const demo = makeDemoHistory(START_YEAR, END_YEAR, lat);
       setSeasonHistory(demo.records);
       setGpmHistory([]);
       setMonthlyClimate({
@@ -137,10 +137,21 @@ export default function App(): React.JSX.Element {
     return buildSeasonStats(selectedSeason, seasonHistory);
   }, [selectedSeason, seasonHistory]);
 
-  // Dynamic ranking of top 3 rotations
+  // Dynamic ranking of top 3 rotations tailored to location, climate, soil & crop conditions
   const rankedRotations: CropRotation[] = useMemo(() => {
-    return rankRotations(ROTATIONS, stats, soilType, selectedPriority, waterAccess, 3);
-  }, [stats, soilType, selectedPriority, waterAccess]);
+    const candidateCatalog = getCatalogForClimate(latitude, stats.meanTemp);
+    return rankRotations(
+      candidateCatalog,
+      stats,
+      soilType,
+      selectedPriority,
+      waterAccess,
+      3,
+      soilPh,
+      currentCrop,
+      latitude
+    );
+  }, [latitude, stats, soilType, selectedPriority, waterAccess, soilPh, currentCrop]);
 
   const handleDownloadFieldCard = useCallback((): void => {
     const seasonName = selectedSeason === 'yala' ? 'Yala' : 'Maha';
@@ -208,7 +219,15 @@ export default function App(): React.JSX.Element {
           isLoading={isLoading}
         />
 
-        <MonitoringDashboard />
+        <MonitoringDashboard
+          latitude={latitude}
+          longitude={longitude}
+          currentCrop={currentCrop}
+          soilType={soilType}
+          soilPh={soilPh}
+          stats={stats}
+          dataMode={dataMode}
+        />
 
         <PlannerSection
           latitude={latitude}

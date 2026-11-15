@@ -15,8 +15,16 @@ export interface DemoHistoryResult {
   normals: ClimateNormal[];
 }
 
-export function makeDemoHistory(startYear: number, endYear: number): DemoHistoryResult {
+export function makeDemoHistory(startYear: number, endYear: number, latitude?: number): DemoHistoryResult {
   const records: ClimateRecord[] = [];
+  const latOffset = typeof latitude === 'number'
+    ? Math.abs(latitude) > 45
+      ? -Math.min(26, (Math.abs(latitude) - 25) * 0.7)
+      : Math.abs(latitude) > 28
+      ? -6
+      : 0
+    : 0;
+
   for (let year = startYear; year <= endYear; year++) {
     for (let month = 1; month <= 12; month++) {
       const i = month - 1;
@@ -24,7 +32,7 @@ export function makeDemoHistory(startYear: number, endYear: number): DemoHistory
       records.push({
         year,
         month,
-        temp: SAMPLE.temp[i] + cycle * 0.8,
+        temp: Math.max(-15, SAMPLE.temp[i] + latOffset + cycle * 0.8),
         rainDaily: Math.max(0.05, SAMPLE.rain[i] * (1 + cycle * 0.25))
       });
     }
@@ -33,7 +41,7 @@ export function makeDemoHistory(startYear: number, endYear: number): DemoHistory
     records,
     normals: SAMPLE.temp.map((temp, i) => ({
       month: i + 1,
-      temp,
+      temp: Math.max(-15, temp + latOffset),
       rainDaily: SAMPLE.rain[i]
     }))
   };
