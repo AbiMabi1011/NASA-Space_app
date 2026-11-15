@@ -3,8 +3,18 @@
  * Produces a portable, standalone HTML/PDF document for extension worker conversations.
  */
 
-import { escapeHtml } from './cardRenderer.js';
 import { PRIORITY_LABELS } from '../core/rankingEngine.js';
+import { FieldCardExportOptions } from '../types/index.js';
+
+export function escapeHtml(value: any): string {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char] || char));
+}
 
 export function generateFieldCardHtml({
   latitude,
@@ -18,7 +28,7 @@ export function generateFieldCardHtml({
   dataLabel,
   stats,
   rankedItems
-}) {
+}: FieldCardExportOptions): string {
   const location = `${Number(latitude).toFixed(2)}, ${Number(longitude).toFixed(2)}`;
   const cards = rankedItems
     .map(
@@ -69,7 +79,7 @@ export function generateFieldCardHtml({
 </html>`;
 }
 
-export function downloadFieldCardFile(context) {
+export function downloadFieldCardFile(context: FieldCardExportOptions): void {
   const html = generateFieldCardHtml(context);
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -81,4 +91,3 @@ export function downloadFieldCardFile(context) {
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-
