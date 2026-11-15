@@ -3,13 +3,20 @@
  * Used as a transparent fallback when the NASA POWER API is unreachable.
  */
 
-export const SAMPLE = {
+import { ClimateRecord, ClimateNormal, MonthlyClimate } from '../types/index.js';
+
+export const SAMPLE: MonthlyClimate = {
   temp: [25.7, 26.3, 27.8, 29.5, 30.5, 30.2, 29.7, 29.3, 29.1, 28.2, 26.8, 25.9],
   rain: [2.6, 1.4, 1.4, 1.8, 0.8, 0.6, 1.1, 1.3, 2.9, 7.4, 11.7, 6.7]
 };
 
-export function makeDemoHistory(startYear, endYear) {
-  const records = [];
+export interface DemoHistoryResult {
+  records: ClimateRecord[];
+  normals: ClimateNormal[];
+}
+
+export function makeDemoHistory(startYear: number, endYear: number): DemoHistoryResult {
+  const records: ClimateRecord[] = [];
   for (let year = startYear; year <= endYear; year++) {
     for (let month = 1; month <= 12; month++) {
       const i = month - 1;
@@ -25,9 +32,9 @@ export function makeDemoHistory(startYear, endYear) {
   return {
     records,
     normals: SAMPLE.temp.map((temp, i) => ({
+      month: i + 1,
       temp,
       rainDaily: SAMPLE.rain[i]
     }))
   };
 }
-
